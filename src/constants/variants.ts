@@ -51,6 +51,26 @@ export const buttonVariants = cva(
   }
 )
 
+export const inputVariants = cva(
+  'flex w-full rounded-md border bg-white px-3 py-2 text-sm transition-all outline-none placeholder:text-grey-400 disabled:cursor-not-allowed disabled:bg-grey-50 disabled:text-grey-400',
+  {
+    variants: {
+      status: {
+        default: 'border-grey-300 focus:border-primary-500',
+        error: 'border-error-400 focus:border-error-400',
+      },
+      size: {
+        md: 'h-11',
+        lg: 'h-12 text-base',
+      },
+    },
+    defaultVariants: {
+      status: 'default',
+      size: 'md',
+    },
+  }
+)
+
 export const modalVariants = cva(
   'relative flex flex-col bg-white w-full overflow-hidden transition-all duration-200 shadow-[0_20px_50px_rgba(0,0,0,0.15)]',
   {
