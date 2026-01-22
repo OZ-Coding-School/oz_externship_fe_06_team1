@@ -10,7 +10,7 @@ export function TableRow({ children, className }: TableRowProps) {
   return (
     <div
       className={cn(
-        'flex w-full items-center border-b border-slate-100 py-4 text-center text-sm text-slate-600 transition-colors',
+        'border-grey-300 flex h-[50px] w-full items-center border-b text-center text-sm',
         className
       )}
     >
