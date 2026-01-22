@@ -3,6 +3,10 @@ import {
   sidebarSectionButtonVariants,
   sidebarSubmenuItemVariants,
 } from '@/constants/variants'
+import MemberIcon from '@/assets/icons/Member.svg?react'
+import ExamIcon from '@/assets/icons/Exam.svg?react'
+import ChevronUpIcon from '@/assets/icons/chevronUp.svg?react'
+import ChevronDownIcon from '@/assets/icons/chevronDown.svg?react'
 
 type SectionKey = 'member' | 'exam' | null
 
@@ -38,8 +42,8 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside className="border-grey-200 w-64 border-r bg-white">
-      <div className="text-grey-800 px-6 py-6 text-xl font-semibold">
+    <aside className="border-grey-300 min-h-screen w-64 shrink-0 border-r bg-white">
+      <div className="border-grey-300 text-grey-800 flex h-16 items-center justify-center border-b text-xl font-semibold">
         오즈코딩스쿨 관리자
       </div>
 
@@ -55,12 +59,21 @@ export default function AdminSidebar() {
               className={sidebarSectionButtonVariants({ open: isOpen })}
             >
               <div className="flex items-center gap-3">
-                {/* 아이콘 자리 */}
-                <div className="border-grey-300 h-5 w-5 rounded-sm border" />
+                {section.key === 'member' ? (
+                  <MemberIcon className="text-primary-600 h-6 w-6" />
+                ) : (
+                  <ExamIcon className="text-primary-600 h-6 w-6" />
+                )}
                 <span className="font-medium">{section.label}</span>
               </div>
 
-              <span className="text-grey-500">{isOpen ? '^' : '˅'}</span>
+              <span className={isOpen ? 'text-primary-600' : 'text-grey-500'}>
+                {isOpen ? (
+                  <ChevronUpIcon className="h-3 w-3" />
+                ) : (
+                  <ChevronDownIcon className="h-3 w-3" />
+                )}
+              </span>
             </button>
 
             {isOpen && (

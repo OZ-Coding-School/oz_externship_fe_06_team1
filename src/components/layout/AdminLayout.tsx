@@ -3,14 +3,13 @@ import AdminSidebar from './AdminSidebar'
 
 export default function AdminLayout() {
   return (
-    <div className="min-h-screen">
-      <AdminHeader />
+    <div className="flex min-h-screen">
+      <AdminSidebar />
 
-      <div className="flex">
-        <AdminSidebar />
+      <div className="flex min-h-screen flex-1 flex-col">
+        <AdminHeader />
 
         <main className="flex-1">
-          {/* 임시 콘텐츠 영역 */}
           <div className="p-6" />
         </main>
       </div>
