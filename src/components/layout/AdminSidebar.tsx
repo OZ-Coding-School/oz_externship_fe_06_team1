@@ -1,5 +1,8 @@
 import { useState } from 'react'
-import { cn } from '@/lib/cn'
+import {
+  sidebarSectionButtonVariants,
+  sidebarSubmenuItemVariants,
+} from '@/constants/variants'
 
 type SectionKey = 'member' | 'exam' | null
 
@@ -35,7 +38,7 @@ export default function AdminSidebar() {
   }
 
   return (
-    <aside className="border-grey-200 bg-200 w-64 border-r">
+    <aside className="border-grey-200 w-64 border-r bg-white">
       <div className="text-grey-800 px-6 py-6 text-xl font-semibold">
         오즈코딩스쿨 관리자
       </div>
@@ -49,10 +52,7 @@ export default function AdminSidebar() {
               type="button"
               onClick={() => toggle(section.key)}
               aria-expanded={isOpen}
-              className={cn(
-                'flex w-full items-center justify-between px-6 py-4 text-left',
-                isOpen ? 'bg-primary-50 text-primary-600' : 'text-grey-800'
-              )}
+              className={sidebarSectionButtonVariants({ open: isOpen })}
             >
               <div className="flex items-center gap-3">
                 {/* 아이콘 자리 */}
@@ -68,13 +68,10 @@ export default function AdminSidebar() {
                 {section.items.map((text) => (
                   <li
                     key={text}
-                    className={cn(
-                      'py-2',
-                      // 예시: "쪽지시험 관리" 항목만 강조
-                      section.key === 'exam' &&
-                        text === '쪽지시험 관리' &&
-                        'text-primary-600'
-                    )}
+                    className={sidebarSubmenuItemVariants({
+                      active:
+                        section.key === 'exam' && text === '쪽지시험 관리',
+                    })}
                   >
                     - {text}
                   </li>
