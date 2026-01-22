@@ -1,5 +1,5 @@
-import AdminHeader from './components/layout/AdminHeader.tsx'
+import AdminLayout from '@/components/layout/AdminLayout'
 
 export default function App() {
-  return <AdminHeader />
+  return <AdminLayout />
 }
