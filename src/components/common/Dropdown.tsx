@@ -1,6 +1,7 @@
 import React from 'react'
 import { ChevronDown, Check } from 'lucide-react'
 import { cn } from '@/lib/cn'
+import { useOutsideClick } from '@/hooks/useOutsideClick'
 import type { DropdownOption } from '@/types/commonComponents'
 
 interface DropdownProps {
@@ -21,25 +22,15 @@ export function Dropdown({
   disabled,
 }: DropdownProps) {
   const [isOpen, setIsOpen] = React.useState(false)
+
   const dropdownRef = React.useRef<HTMLDivElement>(null)
 
   const selectedOption = options.find((opt) => opt.value === value)
 
-  React.useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  useOutsideClick(dropdownRef, () => setIsOpen(false), isOpen)
 
   const handleSelect = (optionValue: string) => {
-    if (onChange) onChange(optionValue)
+    onChange?.(optionValue)
     setIsOpen(false)
   }
 
