@@ -1,11 +1,7 @@
 import React from 'react'
 import { ChevronDown, Check } from 'lucide-react'
 import { cn } from '@/lib/cn'
-
-export type DropdownOption = {
-  value: string
-  label: string
-}
+import type { DropdownOption } from '@/types/commonComponents'
 
 interface DropdownProps {
   options: DropdownOption[]
