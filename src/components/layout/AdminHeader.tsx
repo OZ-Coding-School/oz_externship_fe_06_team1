@@ -1,4 +1,4 @@
-import VectorIcon from '@assets/Vector.svg?react'
+import VectorIcon from '@/assets/icons/Vector.svg?react'
 
 export default function AdminHeader() {
   return (

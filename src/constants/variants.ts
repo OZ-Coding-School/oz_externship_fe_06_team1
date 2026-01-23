@@ -104,3 +104,30 @@ export const toastVariants = cva(
     },
   }
 )
+
+export const sidebarSectionButtonVariants = cva(
+  'flex w-full items-center justify-between px-6 py-4 text-left',
+  {
+    variants: {
+      open: {
+        true: 'bg-primary-50 text-primary-600',
+        false: 'text-grey-800',
+      },
+    },
+    defaultVariants: {
+      open: false,
+    },
+  }
+)
+
+export const sidebarSubmenuItemVariants = cva('py-2', {
+  variants: {
+    active: {
+      true: 'text-primary-600',
+      false: '',
+    },
+  },
+  defaultVariants: {
+    active: false,
+  },
+})
