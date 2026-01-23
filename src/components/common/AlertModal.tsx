@@ -2,8 +2,7 @@ import { Modal } from '@/components/common/Modal'
 import { Button } from '@/components/common/Button'
 import { AlertTriangle, CircleAlert, CircleCheck } from 'lucide-react'
 import { cn } from '@/lib/cn'
-
-export type AlertType = 'success' | 'warning' | 'danger' | 'confirm'
+import type { AlertType } from '@/types/commonComponents'
 
 type AlertModalProps = {
   isOpen: boolean

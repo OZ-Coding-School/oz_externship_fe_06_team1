@@ -51,6 +51,69 @@ export const buttonVariants = cva(
   }
 )
 
+export const dropdownTriggerVariants = cva(
+  'flex items-center justify-between transition-all outline-none',
+  {
+    variants: {
+      variant: {
+        outline:
+          'h-10 w-full rounded-md border border-grey-300 bg-white px-3 py-2 text-sm hover:bg-grey-50',
+        ghost:
+          'bg-transparent p-0 gap-1 text-xl font-bold text-grey-800 hover:bg-transparent',
+      },
+      disabled: {
+        true: 'bg-grey-50 text-grey-400 cursor-not-allowed',
+        false: 'border-grey-300 text-grey-800 cursor-pointer',
+      },
+      open: {
+        true: '',
+        false: '',
+      },
+    },
+    compoundVariants: [
+      {
+        variant: 'outline',
+        open: true,
+        className: 'border-primary-500 ring-1 ring-primary-500',
+      },
+    ],
+    defaultVariants: {
+      variant: 'outline',
+      disabled: false,
+      open: false,
+    },
+  }
+)
+
+export const dropdownMenuVariants = cva(
+  'absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border bg-white py-1 shadow-lg outline-none animate-in fade-in-0 zoom-in-95 duration-100',
+  {
+    variants: {
+      border: {
+        default: 'border-grey-100',
+      },
+    },
+    defaultVariants: {
+      border: 'default',
+    },
+  }
+)
+
+export const dropdownItemVariants = cva(
+  'flex cursor-pointer select-none items-center justify-between px-3 py-2.5 text-sm transition-colors',
+  {
+    variants: {
+      selected: {
+        true: 'bg-primary-50 text-primary-600 font-medium',
+        false: 'text-grey-700 hover:bg-grey-50',
+      },
+    },
+    defaultVariants: {
+      selected: false,
+    },
+  }
+)
+
 export const inputVariants = cva(
   'flex w-full rounded-md border bg-white px-3 py-2 text-sm transition-all outline-none placeholder:text-grey-400 disabled:cursor-not-allowed disabled:bg-grey-50 disabled:text-grey-400',
   {

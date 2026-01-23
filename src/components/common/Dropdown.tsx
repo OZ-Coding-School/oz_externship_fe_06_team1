@@ -1,11 +1,13 @@
 import React from 'react'
-import { ChevronDown, Check } from 'lucide-react'
+import { Check, Triangle } from 'lucide-react'
+import {
+  dropdownTriggerVariants,
+  dropdownMenuVariants,
+  dropdownItemVariants,
+} from '@/constants/variants'
 import { cn } from '@/lib/cn'
-
-export type DropdownOption = {
-  value: string
-  label: string
-}
+import { useOutsideClick } from '@/hooks/useOutsideClick'
+import type { DropdownOption } from '@/types/commonComponents'
 
 interface DropdownProps {
   options: DropdownOption[]
@@ -14,6 +16,7 @@ interface DropdownProps {
   placeholder?: string
   className?: string
   disabled?: boolean
+  variant?: 'outline' | 'ghost'
 }
 
 export function Dropdown({
@@ -23,77 +26,65 @@ export function Dropdown({
   placeholder = '옵션을 선택하세요',
   className,
   disabled,
+  variant = 'outline',
 }: DropdownProps) {
   const [isOpen, setIsOpen] = React.useState(false)
+
   const dropdownRef = React.useRef<HTMLDivElement>(null)
 
   const selectedOption = options.find((opt) => opt.value === value)
 
-  React.useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  useOutsideClick(dropdownRef, () => setIsOpen(false), isOpen)
 
   const handleSelect = (optionValue: string) => {
-    if (onChange) onChange(optionValue)
+    onChange?.(optionValue)
     setIsOpen(false)
   }
 
   return (
-    <div className={cn('relative w-full', className)} ref={dropdownRef}>
+    <div
+      className={cn(
+        'relative',
+        variant === 'outline' ? 'w-full' : 'w-fit',
+        className
+      )}
+      ref={dropdownRef}
+    >
       <button
         type="button"
         onClick={() => !disabled && setIsOpen(!isOpen)}
         disabled={disabled}
         className={cn(
-          'flex h-10 w-full items-center justify-between rounded-md border bg-white px-3 py-2 text-sm transition-all outline-none',
-          'border-grey-300 text-grey-800',
-          disabled
-            ? 'bg-grey-50 text-grey-400 cursor-not-allowed'
-            : 'hover:bg-grey-50 cursor-pointer',
-          isOpen && 'border-primary-500 ring-primary-500 ring-1'
+          dropdownTriggerVariants({
+            disabled: !!disabled,
+            open: isOpen,
+            variant,
+          })
         )}
       >
         <span className={cn(!selectedOption && 'text-grey-400')}>
           {selectedOption ? selectedOption.label : placeholder}
         </span>
-        <ChevronDown
-          size={16}
+        <Triangle
+          size={8}
+          fill="currentColor"
           className={cn(
-            'text-grey-400 transition-transform duration-200',
-            isOpen && 'rotate-180'
+            'text-grey-400 ml-2 transition-transform duration-200',
+            isOpen ? 'rotate-0' : 'rotate-180',
+            variant === 'ghost' && 'text-grey-800'
           )}
         />
       </button>
 
       {isOpen && (
-        <ul
-          className={cn(
-            'absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border bg-white py-1 shadow-lg outline-none',
-            'border-grey-100 animate-in fade-in-0 zoom-in-95 duration-100',
-            'scrollbar-thin scrollbar-thumb-grey-300 scrollbar-track-transparent'
-          )}
-        >
+        <ul className={cn(dropdownMenuVariants())}>
           {options.map((option) => {
             const isSelected = option.value === value
             return (
               <li
                 key={option.value}
                 onClick={() => handleSelect(option.value)}
-                className={cn(
-                  'flex cursor-pointer items-center justify-between px-3 py-2.5 text-sm transition-colors select-none',
-                  isSelected
-                    ? 'bg-primary-50 text-primary-600 font-medium'
-                    : 'text-grey-700 hover:bg-grey-50'
-                )}
+                className={cn(dropdownItemVariants({ selected: isSelected }))}
               >
                 <span>{option.label}</span>
                 {isSelected && <Check size={16} className="text-primary-500" />}
