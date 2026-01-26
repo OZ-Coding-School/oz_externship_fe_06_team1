@@ -22,7 +22,7 @@ export const QuestionInputSection = ({
   </section>
 )
 
-// 2. 지시 사항(Prompt) 입력 섹션
+// 2. 지문 등록(Prompt) 입력 섹션
 export const PromptInputSection = ({
   value,
   onChange,
@@ -31,9 +31,9 @@ export const PromptInputSection = ({
   onChange: (v: string) => void
 }) => (
   <section className="flex flex-col gap-2">
-    <h3 className="text-grey-800 text-sm font-semibold">추가 정보</h3>
+    <h3 className="text-grey-800 text-sm font-semibold">지문 등록</h3>
     <textarea
-      className="border-grey-300 text-grey-600 placeholder:text-grey-600 focus:border-primary-500 h-[50px] w-full resize-none border p-2 text-sm font-normal outline-none"
+      className="border-grey-300 text-grey-600 placeholder:text-grey-600 focus:border-primary-500 h-[70px] w-full resize-none border p-2 text-sm font-normal outline-none"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder="문제에 대한 지시 사항을 입력해주세요. (예: 20글자 이내로 입력하세요.)"
@@ -41,7 +41,7 @@ export const PromptInputSection = ({
   </section>
 )
 
-// 2. 배점 선택 섹션
+// 3. 배점 선택 섹션
 export const PointSection = ({
   value,
   onChange,
@@ -67,7 +67,7 @@ export const PointSection = ({
   </section>
 )
 
-// 3. 해설 등록 섹션
+// 4. 해설 등록 섹션
 export const ExplanationSection = ({
   value,
   onChange,

@@ -1,5 +1,6 @@
 import type { QuestionType } from '@/types/question'
 import {
+  FillBlankForm,
   MultipleChoiceForm,
   OXForm,
   OrderingForm,
@@ -17,6 +18,8 @@ interface QuestionTypeFormProps {
   handleAddOption: () => void
   shortAnswer: string
   setShortAnswer: (answer: string) => void
+  prompt: string
+  setPrompt: (prompt: string) => void
 }
 
 export const QuestionTypeForm = ({
@@ -30,6 +33,8 @@ export const QuestionTypeForm = ({
   handleAddOption,
   shortAnswer,
   setShortAnswer,
+  prompt,
+  setPrompt,
 }: QuestionTypeFormProps) => {
   switch (type) {
     case 'multiple_choice':
@@ -66,6 +71,17 @@ export const QuestionTypeForm = ({
         <ShortAnswerForm
           correctAnswer={shortAnswer}
           setCorrectAnswer={setShortAnswer}
+        />
+      )
+    case 'fill_blank':
+      return (
+        <FillBlankForm
+          answers={options}
+          setAnswers={setOptions}
+          handleRemoveAnswer={handleRemoveOption}
+          handleAddAnswer={handleAddOption}
+          prompt={prompt}
+          setPrompt={setPrompt}
         />
       )
     default:
