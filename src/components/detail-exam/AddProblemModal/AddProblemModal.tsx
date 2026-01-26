@@ -7,7 +7,6 @@ import { cn } from '@/lib/cn'
 // 분리된 컴포넌트 임포트
 import {
   QuestionInputSection,
-  PromptInputSection,
   PointSection,
   ExplanationSection,
 } from './ProblemForms'
@@ -132,8 +131,8 @@ export default function AddProblemModal({
         </Modal.Header>
 
         {/* 오른쪽 섹션: 폼 입력 영역 */}
-        <div className="flex w-[570px] flex-col text-left">
-          <Modal.Body className="flex flex-1 flex-col gap-10 overflow-y-auto px-5 py-15">
+        <div className="flex w-[540px] flex-col text-left">
+          <Modal.Body className="scrollbar-hide flex flex-1 flex-col gap-10 overflow-y-auto px-5 py-15">
             {/* 공통 1: 문제 입력 */}
             <QuestionInputSection value={question} onChange={setQuestion} />
 
@@ -149,15 +148,14 @@ export default function AddProblemModal({
               handleAddOption={handleAddOption}
               shortAnswer={shortAnswer}
               setShortAnswer={setShortAnswer}
+              prompt={prompt}
+              setPrompt={setPrompt}
             />
 
             {/* 공통 2: 배점 선택 */}
             <PointSection value={point} onChange={setPoint} />
 
-            {/* 공통 3: 지시사항 */}
-            <PromptInputSection value={prompt} onChange={setPrompt} />
-
-            {/* 공통 4: 해설 등록 */}
+            {/* 공통 3: 해설 등록 */}
             <ExplanationSection value={explanation} onChange={setExplanation} />
           </Modal.Body>
 
