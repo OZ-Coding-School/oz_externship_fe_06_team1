@@ -95,7 +95,7 @@ export const OrderingForm = ({
               {/* 삭제 버튼 */}
               <button
                 onClick={() => handleRemoveOption(index)}
-                className="text-grey-400 cursor-pointer outline-none"
+                className="text-grey-600 hover:text-error-400 cursor-pointer transition-colors"
               >
                 <X size={12} />
               </button>
