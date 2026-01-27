@@ -38,7 +38,7 @@ export const buttonVariants = cva(
         ghost: 'bg-transparent text-grey-600 hover:bg-grey-100',
       },
       size: {
-        default: 'h-11 px-6 py-2.5',
+        default: 'h-10 px-6 py-2.5',
         sm: 'h-9 px-4 text-xs',
         lg: 'h-14 px-10 text-base',
         icon: 'h-6 w-6 p-0',
