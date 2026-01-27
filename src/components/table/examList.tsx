@@ -6,7 +6,7 @@ import { MOCK_EXAM_LIST_RESPONSE } from '@/mocks/table-data/ExamList'
 const StatusBadge = () => (
   <button
     type="button"
-    className="bg-success-400 flex h-[26px] w-[50px] items-center justify-center rounded text-[12px] font-semibold text-white outline-none"
+    className="bg-success-400 flex h-[26px] w-[50px] items-center justify-center rounded text-xs font-semibold text-white outline-none"
   >
     배포
   </button>

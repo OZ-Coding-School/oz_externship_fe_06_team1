@@ -49,3 +49,13 @@ body {
 .bg-overlay {
   background-color: var(--color-overlay);
 }
+
+/* 스크롤바 숨기기 */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* 익스플로러, 엣지 */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}

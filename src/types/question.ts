@@ -1,9 +1,9 @@
 export type QuestionType =
   | 'multiple_choice'
-  | 'true_false'
+  | 'ox'
   | 'ordering'
   | 'short_answer'
-  | 'fill_in_the_blank'
+  | 'fill_blank'
 
 export interface Subject {
   id: number
@@ -15,9 +15,10 @@ export interface Question {
   type: QuestionType
   question: string
   prompt: string
-  point: number
-  options?: string[]
+  options?: string[] | null
+  blank_count: number
   correct_answer: string | string[]
+  point: number
   explanation: string
 }
 
