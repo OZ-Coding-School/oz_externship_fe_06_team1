@@ -9,7 +9,7 @@ import {
   QuestionInputSection,
   PointSection,
   ExplanationSection,
-} from './ProblemForms'
+} from './ProblemForms/CommonSections/index.ts'
 
 import { QuestionTypeForm } from './ProblemForms/renderTypeForm'
 

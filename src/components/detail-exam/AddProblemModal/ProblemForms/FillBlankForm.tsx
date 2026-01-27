@@ -1,7 +1,8 @@
 import { Input } from '@/components/common/Input'
 import { X } from 'lucide-react'
 import PlusSquare from '@/assets/icons/plusSquare.svg?react'
-import { FormSectionLayout, PromptInputSection } from './CommonSections'
+import { FormSectionLayout } from './CommonSections'
+import { PromptInputSection } from './CommonSections'
 
 export interface FillBlankFormProps {
   answers: string[]
