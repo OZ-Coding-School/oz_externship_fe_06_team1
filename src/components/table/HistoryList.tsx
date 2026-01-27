@@ -1,6 +1,6 @@
 import type { HistoryItem } from '@/types/history'
 import { DataTable, type Column } from './data-table/DataTable'
-import { MOCK_HISTORY_LIST_RESPONSE } from '@/mocks/table-data/HistoryList'
+import { MOCK_HISTORY_LIST_RESPONSE } from '@/mocks/data/table-data/HistoryList'
 
 const TitleCell = ({ title }: { title: string }) => (
   <span
