@@ -1,4 +1,3 @@
-import type { QuestionType } from '@/types/question'
 import {
   FillBlankForm,
   MultipleChoiceForm,
@@ -7,83 +6,22 @@ import {
   ShortAnswerForm,
 } from './index'
 
-interface QuestionTypeFormProps {
-  type: QuestionType
-  options: string[]
-  setOptions: (options: string[]) => void
-  correctAnswers: number[]
-  setCorrectAnswers: (answers: number[]) => void
-  toggleAnswer: (index: number) => void
-  handleRemoveOption: (index: number) => void
-  handleAddOption: () => void
-  shortAnswer: string
-  setShortAnswer: (answer: string) => void
-  prompt: string
-  setPrompt: (prompt: string) => void
-}
+import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
 
-export const QuestionTypeForm = ({
-  type,
-  options,
-  setOptions,
-  correctAnswers,
-  setCorrectAnswers,
-  toggleAnswer,
-  handleRemoveOption,
-  handleAddOption,
-  shortAnswer,
-  setShortAnswer,
-  prompt,
-  setPrompt,
-}: QuestionTypeFormProps) => {
+export const QuestionTypeForm = () => {
+  const { type } = useProblemFormStore()
+
   switch (type) {
     case 'multiple_choice':
-      return (
-        <MultipleChoiceForm
-          options={options}
-          setOptions={setOptions}
-          correctAnswers={correctAnswers}
-          toggleAnswer={toggleAnswer}
-          handleRemoveOption={handleRemoveOption}
-          handleAddOption={handleAddOption}
-        />
-      )
+      return <MultipleChoiceForm />
     case 'ox':
-      return (
-        <OXForm
-          correctAnswer={correctAnswers[0] === 0 ? 'O' : 'X'}
-          setCorrectAnswer={(ans) => setCorrectAnswers([ans === 'O' ? 0 : 1])}
-        />
-      )
+      return <OXForm />
     case 'ordering':
-      return (
-        <OrderingForm
-          options={options}
-          setOptions={setOptions}
-          correctAnswers={correctAnswers}
-          setCorrectAnswers={setCorrectAnswers}
-          handleRemoveOption={handleRemoveOption}
-          handleAddOption={handleAddOption}
-        />
-      )
+      return <OrderingForm />
     case 'short_answer':
-      return (
-        <ShortAnswerForm
-          correctAnswer={shortAnswer}
-          setCorrectAnswer={setShortAnswer}
-        />
-      )
+      return <ShortAnswerForm />
     case 'fill_blank':
-      return (
-        <FillBlankForm
-          answers={options}
-          setAnswers={setOptions}
-          handleRemoveAnswer={handleRemoveOption}
-          handleAddAnswer={handleAddOption}
-          prompt={prompt}
-          setPrompt={setPrompt}
-        />
-      )
+      return <FillBlankForm />
     default:
       return (
         <div className="bg-grey-50 text-grey-400 rounded p-10 text-center text-sm">

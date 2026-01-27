@@ -2,24 +2,39 @@ import { Input } from '@/components/common/Input'
 import { X, Check } from 'lucide-react'
 import PlusSquare from '@/assets/icons/plusSquare.svg?react'
 import { FormSectionLayout } from './CommonSections'
+import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
 
-export interface MultipleChoiceFormProps {
-  options: string[]
-  setOptions: (options: string[]) => void
-  correctAnswers: number[]
-  toggleAnswer: (index: number) => void
-  handleRemoveOption: (index: number) => void
-  handleAddOption: () => void
-}
+export const MultipleChoiceForm = () => {
+  const { options, setOptions, correctAnswers, setCorrectAnswers } =
+    useProblemFormStore()
 
-export const MultipleChoiceForm = ({
-  options,
-  setOptions,
-  correctAnswers,
-  toggleAnswer,
-  handleRemoveOption,
-  handleAddOption,
-}: MultipleChoiceFormProps) => {
+  // correctAnswers는 number[] 타입으로 가정
+  const currentCorrectAnswers = (correctAnswers as number[]) || []
+
+  const toggleAnswer = (index: number) => {
+    setCorrectAnswers(
+      currentCorrectAnswers.includes(index)
+        ? currentCorrectAnswers.filter((i) => i !== index)
+        : [...currentCorrectAnswers, index]
+    )
+  }
+
+  const handleRemoveOption = (index: number) => {
+    // 보기 삭제 시, 보기 목록과 정답 인덱스 모두 업데이트 필요
+    setOptions(options.filter((_, i) => i !== index))
+    setCorrectAnswers(
+      currentCorrectAnswers
+        .filter((i) => i !== index)
+        .map((i) => (i > index ? i - 1 : i))
+    )
+  }
+
+  const handleAddOption = () => {
+    if (options.length < 5) {
+      setOptions([...options, ''])
+    }
+  }
+
   return (
     <FormSectionLayout
       title="문제 보기 등록"
@@ -39,7 +54,7 @@ export const MultipleChoiceForm = ({
       }
     >
       {options.map((option, index) => {
-        const isCorrect = correctAnswers.includes(index)
+        const isCorrect = currentCorrectAnswers.includes(index)
         return (
           <div key={`choice-${index}`} className="flex items-center gap-3">
             <span className="text-grey-600 text-xs">{index + 1}.</span>

@@ -3,29 +3,34 @@ import { X } from 'lucide-react'
 import PlusSquare from '@/assets/icons/plusSquare.svg?react'
 import { FormSectionLayout } from './CommonSections'
 import { Dropdown } from '@/components/common/Dropdown'
+import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
 
-export interface OrderingFormProps {
-  options: string[]
-  setOptions: (options: string[]) => void
-  correctAnswers: number[]
-  setCorrectAnswers: (answers: number[]) => void
-  handleRemoveOption: (index: number) => void
-  handleAddOption: () => void
-}
+export const OrderingForm = () => {
+  const { options, setOptions, correctAnswers, setCorrectAnswers } =
+    useProblemFormStore()
 
-export const OrderingForm = ({
-  options,
-  setOptions,
-  correctAnswers,
-  setCorrectAnswers,
-  handleRemoveOption,
-  handleAddOption,
-}: OrderingFormProps) => {
-  // 보기 개수에 맞춰 기본값(0, 1, 2...) 생성
-  const currentOrders =
-    correctAnswers.length === options.length
-      ? correctAnswers
+  // ordering: correctAnswers는 number[] (순서 인덱스 배열)
+  const currentOrders = (correctAnswers as number[]) || []
+
+  // 보기 개수에 맞춰 기본값(0, 1, 2...) 생성 (currentOrders가 비어있거나 싱크가 안 맞을 경우 대비)
+  const displayOrders =
+    currentOrders.length === options.length
+      ? currentOrders
       : options.map((_, i) => i)
+
+  const handleRemoveOption = (index: number) => {
+    setOptions(options.filter((_, i) => i !== index))
+    const newLength = options.length - 1
+    setCorrectAnswers(Array.from({ length: newLength }, (_, i) => i))
+  }
+
+  const handleAddOption = () => {
+    if (options.length < 5) {
+      setOptions([...options, ''])
+      // 옵션 추가 시 순서 배열도 갱신
+      setCorrectAnswers([...displayOrders, options.length])
+    }
+  }
 
   return (
     <FormSectionLayout
@@ -47,7 +52,7 @@ export const OrderingForm = ({
     >
       <div className="flex flex-col gap-2">
         {options.map((option, index) => {
-          const assignedRank = currentOrders[index] ?? index
+          const assignedRank = displayOrders[index] ?? index
 
           return (
             <div
@@ -78,10 +83,13 @@ export const OrderingForm = ({
                 value={String(assignedRank + 1)}
                 onChange={(value) => {
                   const targetRank = Number(value) - 1
-                  const newOrders = [...currentOrders]
+                  const newOrders = [...displayOrders]
+
+                  // targetRank를 이미 가지고 있는 아이템을 찾아서 교환 (Swap)
                   const switchIndex = newOrders.findIndex(
                     (rank) => rank === targetRank
                   )
+
                   if (switchIndex !== -1) {
                     newOrders[switchIndex] = assignedRank
                   }
