@@ -1,4 +1,5 @@
 import type { QuestionListResponse } from '@/types/question'
+
 export const MOCK_QUESTION_LIST_RESPONSE: QuestionListResponse = {
   id: 101,
   title: 'TypeScript 쪽지시험',
