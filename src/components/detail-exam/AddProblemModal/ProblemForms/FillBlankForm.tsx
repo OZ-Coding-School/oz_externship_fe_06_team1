@@ -1,29 +1,30 @@
 import { Input } from '@/components/common/Input'
 import { X } from 'lucide-react'
 import PlusSquare from '@/assets/icons/plusSquare.svg?react'
-import { FormSectionLayout } from './CommonSections'
-import { PromptInputSection } from './CommonSections'
+import { FormSectionLayout, PromptInputSection } from './CommonSections'
+import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
 
-export interface FillBlankFormProps {
-  answers: string[]
-  setAnswers: (answers: string[]) => void
-  handleRemoveAnswer: (index: number) => void
-  handleAddAnswer: () => void
-  prompt: string
-  setPrompt: (prompt: string) => void
-}
+export const FillBlankForm = () => {
+  const { correctAnswers, setCorrectAnswers, prompt, setPrompt } =
+    useProblemFormStore()
 
-export const FillBlankForm = ({
-  answers,
-  setAnswers,
-  handleRemoveAnswer,
-  handleAddAnswer,
-  prompt,
-  setPrompt,
-}: FillBlankFormProps) => {
+  // fill_blank에서 correctAnswers는 string[] -- store에 정의된 대로
+  const answers = (correctAnswers as string[]) || []
+
+  // 핸들러 구현
+  const handleAddAnswer = () => {
+    setCorrectAnswers([...answers, ''])
+  }
+
+  const handleRemoveAnswer = (index: number) => {
+    setCorrectAnswers(answers.filter((_, i) => i !== index))
+  }
+
   return (
     <div className="flex flex-col gap-8">
+      {/* 지문 입력 섹션 */}
       <PromptInputSection value={prompt} onChange={setPrompt} />
+
       {/* 빈칸 답안 등록 */}
       <FormSectionLayout
         title="빈칸 답안 등록"
@@ -49,7 +50,7 @@ export const FillBlankForm = ({
               onChange={(e) => {
                 const newAnswers = [...answers]
                 newAnswers[index] = e.target.value
-                setAnswers(newAnswers)
+                setCorrectAnswers(newAnswers)
               }}
               placeholder="정답을 입력하세요"
             />

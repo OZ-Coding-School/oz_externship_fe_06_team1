@@ -1,13 +1,12 @@
 import { cn } from '@/lib/cn'
 import { FormSectionLayout } from './CommonSections'
 import { Check } from 'lucide-react'
+import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
 
-export interface OXFormProps {
-  correctAnswer: string // 'O' 또는 'X'
-  setCorrectAnswer: (answer: string) => void
-}
+export const OXForm = () => {
+  const { correctAnswers, setCorrectAnswers } = useProblemFormStore()
+  const currentAnswer = correctAnswers as string
 
-export const OXForm = ({ correctAnswer, setCorrectAnswer }: OXFormProps) => {
   return (
     <FormSectionLayout
       title="정답 등록"
@@ -16,7 +15,7 @@ export const OXForm = ({ correctAnswer, setCorrectAnswer }: OXFormProps) => {
     >
       <div className="flex flex-col gap-2">
         {['O', 'X'].map((val, index) => {
-          const isSelected = correctAnswer === val
+          const isSelected = currentAnswer === val
           return (
             <div
               key={`ox-${index}`}
@@ -25,7 +24,7 @@ export const OXForm = ({ correctAnswer, setCorrectAnswer }: OXFormProps) => {
               <span className="text-grey-600 font-medium">{index + 1}.</span>
               <button
                 type="button"
-                onClick={() => setCorrectAnswer(val)}
+                onClick={() => setCorrectAnswers(val)}
                 className={cn(
                   'flex flex-1 cursor-pointer items-center justify-start rounded border bg-white px-2 py-1',
                   isSelected ? 'border-primary-700' : 'border-grey-300'
@@ -35,7 +34,7 @@ export const OXForm = ({ correctAnswer, setCorrectAnswer }: OXFormProps) => {
               </button>
               <button
                 type="button"
-                onClick={() => setCorrectAnswer(val)}
+                onClick={() => setCorrectAnswers(val)}
                 className="cursor-pointer"
               >
                 {isSelected ? (
