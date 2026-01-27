@@ -89,6 +89,7 @@ export const OrderingForm = ({
 
                   setCorrectAnswers(newOrders)
                 }}
+                placeholder="1"
                 className="w-[60px] [&_button]:!h-[30px] [&_button]:!w-[50px] [&_button]:!text-sm"
               />
 
