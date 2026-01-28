@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   sidebarSectionButtonVariants,
   sidebarSubmenuItemVariants,
@@ -35,10 +36,31 @@ const SECTIONS = [
 ]
 
 export default function AdminSidebar() {
-  const [openSection, setOpenSection] = useState<SectionKey>('exam')
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+
+  const [openSection, setOpenSection] = useState<SectionKey>(() => {
+    if (pathname.startsWith('/exam')) return 'exam'
+    if (pathname.startsWith('/members')) return 'member'
+    return 'exam'
+  })
 
   const toggle = (key: Exclude<SectionKey, null>) => {
     setOpenSection((prev) => (prev === key ? null : key))
+  }
+
+  const handleClickItem = (
+    sectionKey: Exclude<SectionKey, null>,
+    text: string
+  ) => {
+    if (sectionKey === 'exam' && text === '응시 내역 관리') {
+      navigate('/exam/history')
+      return
+    }
+
+    if (sectionKey === 'member' && text === '대시보드') {
+      navigate('/dashboard')
+    }
   }
 
   return (
@@ -78,17 +100,40 @@ export default function AdminSidebar() {
 
             {isOpen && (
               <ul className="text-grey-700 px-8 pb-3 text-sm">
-                {section.items.map((text) => (
-                  <li
-                    key={text}
-                    className={sidebarSubmenuItemVariants({
-                      active:
-                        section.key === 'exam' && text === '쪽지시험 관리',
-                    })}
-                  >
-                    - {text}
-                  </li>
-                ))}
+                {section.items.map((text) => {
+                  const isActive =
+                    (pathname === '/exam/history' &&
+                      section.key === 'exam' &&
+                      text === '응시 내역 관리') ||
+                    (pathname === '/dashboard' &&
+                      section.key === 'member' &&
+                      text === '대시보드')
+
+                  const isClickable =
+                    (section.key === 'exam' && text === '응시 내역 관리') ||
+                    (section.key === 'member' && text === '대시보드')
+
+                  return (
+                    <li
+                      key={text}
+                      className={sidebarSubmenuItemVariants({
+                        active: isActive,
+                      })}
+                    >
+                      {isClickable ? (
+                        <button
+                          type="button"
+                          onClick={() => handleClickItem(section.key, text)}
+                          className="w-full text-left"
+                        >
+                          - {text}
+                        </button>
+                      ) : (
+                        <>- {text}</>
+                      )}
+                    </li>
+                  )
+                })}
               </ul>
             )}
           </div>

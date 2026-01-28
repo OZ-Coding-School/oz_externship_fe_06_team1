@@ -71,19 +71,7 @@ const COLUMNS: Column<HistoryItem>[] = [
 export default function HistoryList() {
   return (
     <div className="w-full">
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-foreground text-base font-semibold">
-          쪽지시험 응시 내역 조회
-        </h2>
-
-        <button
-          type="button"
-          className="bg-primary-50 text-primary-700 h-9 rounded-md px-3 text-sm"
-          onClick={() => console.log('과정별 필터링 클릭')}
-        >
-          과정별 필터링
-        </button>
-      </div>
+      <div className="mb-4 flex items-center justify-between"></div>
 
       <DataTable
         data={MOCK_HISTORY_LIST_RESPONSE.submissions}
