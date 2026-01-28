@@ -1,7 +1,7 @@
 // import { Link } from "react-router";
 import type { ExamItem } from '@/types/exam'
 import { DataTable, type Column } from './data-table/DataTable'
-import { MOCK_EXAM_LIST_RESPONSE } from '@/mocks/table-data/ExamList'
+import { MOCK_EXAM_LIST_RESPONSE } from '@/mocks/data/table-data/ExamList'
 
 const StatusBadge = () => (
   <button

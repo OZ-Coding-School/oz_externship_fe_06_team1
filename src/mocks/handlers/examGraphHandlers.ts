@@ -1,7 +1,6 @@
 import { http, HttpResponse } from 'msw'
 import {
   MOCK_STUDENT_SCORES_DATA,
-  MOCK_SCATTER_DATA_BY_SUBJECT,
   MOCK_TERM_AVG_DATA,
   MOCK_STUDENTS_BY_TERM,
 } from '@/mocks/data/graph-data/ExamGraph'
@@ -17,15 +16,6 @@ export const examGraphHandlers = [
 
   http.get('/api/charts/term-avg', () => {
     return HttpResponse.json(MOCK_TERM_AVG_DATA)
-  }),
-
-  http.get('/api/charts/scatter', ({ request }) => {
-    const url = new URL(request.url)
-    const subject = url.searchParams.get('subject') || 'html'
-
-    const data =
-      MOCK_SCATTER_DATA_BY_SUBJECT[subject] || MOCK_SCATTER_DATA_BY_SUBJECT.html
-    return HttpResponse.json(data)
   }),
 
   http.get('/api/metadata/students', ({ request }) => {
