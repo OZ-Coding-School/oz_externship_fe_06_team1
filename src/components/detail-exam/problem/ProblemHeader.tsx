@@ -14,8 +14,8 @@ const TYPE_LABELS: Record<QuestionType, string> = {
 interface ProblemHeaderProps {
   type?: QuestionType
   onAdd: () => void
-  onEdit: () => void
-  // onDelete: () => void
+  onEdit?: () => void
+  // onDelete?: () => void
 }
 
 export default function ProblemHeader({
