@@ -26,16 +26,16 @@ const TitleCell = ({ title }: { title: string }) => (
 
 const COLUMNS: Column<ExamItem>[] = [
   {
-    key: 'exam_id',
+    key: 'id',
     title: 'ID',
     size: 'md',
-    cell: (item) => item.exam_id,
+    cell: (item) => item.id,
   },
   {
-    key: 'exam_title',
+    key: 'title',
     title: '제목',
     className: 'flex-1 justify-center min-w-[180px]',
-    cell: (item) => <TitleCell title={item.exam_title} />,
+    cell: (item) => <TitleCell title={item.title} />,
   },
   {
     key: 'subject_name',
