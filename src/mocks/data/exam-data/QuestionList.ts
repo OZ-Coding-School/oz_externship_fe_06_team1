@@ -69,6 +69,7 @@ export const MOCK_QUESTION_LIST_RESPONSE: QuestionListResponse = {
       prompt: '20글자 이내로 입력하세요',
       point: 5,
       blank_count: 0,
+      options: null,
       correct_answer: '타입단언',
       explanation:
         '하위 타입 값을 상위 타입으로 취급하는 것을 업캐스팅이라고 하며, 이는 대부분의 경우 안전하게 허용됩니다. 반대인 다운캐스팅은 일반적으로 허용되지 않아요.',
