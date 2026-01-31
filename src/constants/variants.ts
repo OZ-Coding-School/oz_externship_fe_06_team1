@@ -146,6 +146,9 @@ export const modalVariants = cva(
         ml: 'max-w-[790px] min-w-[550px] rounded-md ',
         lg: 'max-w-[900px] rounded-xl',
         full: 'max-w-[95vw] h-[90vh] rounded-xl',
+
+        attemptDetail: 'max-w-none w-[790px] h-[911px] rounded-md',
+        solution: 'max-w-none w-[1280px] h-[860px] rounded-md',
       },
     },
     defaultVariants: {
