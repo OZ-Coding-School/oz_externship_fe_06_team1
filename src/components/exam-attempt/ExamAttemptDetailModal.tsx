@@ -1,23 +1,22 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, type ReactNode } from 'react'
+import { Button, Modal, SolutionViewButton } from '@/components/common'
 import { AlertModal } from '@/components/common/AlertModal'
-import { Button } from '@/components/common/Button'
-import { SolutionViewButton } from '@/components/common/SolutionViewButton'
-import { Modal } from '@/components/common/Modal'
+import DetailExamContainer from '@/components/detail-exam/DetailExamContainer'
 import type { HistoryItem } from '@/types/history'
 
-type Props = {
+type ExamAttemptDetailModalProps = {
   open: boolean
   onClose: () => void
   item: HistoryItem | null
 }
 
-function TableWrap({ children }: { children: React.ReactNode }) {
-  return <div className="border-grey-300 border-t">{children}</div>
+function TableWrap({ children }: { children: ReactNode }) {
+  return <div className="border-grey-400 border-t">{children}</div>
 }
 
-function Row2({ label, value }: { label: string; value: React.ReactNode }) {
+function Row2({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="border-grey-300 grid grid-cols-[140px_1fr] border-b">
+    <div className="border-grey-400 grid grid-cols-[140px_1fr] border-b">
       <div className="bg-grey-50 text-grey-600 px-4 py-3 text-sm font-medium">
         {label}
       </div>
@@ -33,12 +32,12 @@ function Row4({
   rightValue,
 }: {
   leftLabel: string
-  leftValue: React.ReactNode
+  leftValue: ReactNode
   rightLabel: string
-  rightValue: React.ReactNode
+  rightValue: ReactNode
 }) {
   return (
-    <div className="border-grey-300 grid grid-cols-[140px_minmax(0,2fr)_160px_minmax(0,1fr)] border-b">
+    <div className="border-grey-400 grid grid-cols-[140px_minmax(0,2fr)_160px_minmax(0,1fr)] border-b">
       <div className="bg-grey-50 text-grey-600 px-4 py-3 text-sm font-medium whitespace-nowrap">
         {leftLabel}
       </div>
@@ -56,7 +55,12 @@ function Row4({
   )
 }
 
-export function ExamAttemptDetailModal({ open, onClose, item }: Props) {
+export function ExamAttemptDetailModal({
+  open,
+  onClose,
+  item,
+}: ExamAttemptDetailModalProps) {
+  const [solutionOpen, setSolutionOpen] = useState(false)
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
 
   const cohortText = useMemo(() => {
@@ -66,15 +70,28 @@ export function ExamAttemptDetailModal({ open, onClose, item }: Props) {
 
   const correctText = useMemo(() => '-', [])
 
+  useEffect(() => {
+    if (!open) {
+      setSolutionOpen(false)
+      setDeleteConfirmOpen(false)
+    }
+  }, [open])
+
   if (!item) return null
+
+  const handleCloseDetail = () => {
+    setSolutionOpen(false)
+    setDeleteConfirmOpen(false)
+    onClose()
+  }
 
   return (
     <>
       <Modal
         isOpen={open}
-        onClose={onClose}
+        onClose={handleCloseDetail}
+        size="lg"
         showCloseButton
-        className="flex h-[911px] w-[790px] flex-col overflow-hidden"
       >
         <Modal.Body className="flex h-full flex-col px-8 pt-8 pb-6">
           <div className="mb-6">
@@ -89,8 +106,9 @@ export function ExamAttemptDetailModal({ open, onClose, item }: Props) {
                 <h3 className="text-grey-800 mb-0 text-sm font-bold">
                   쪽지시험 정보
                 </h3>
-                <SolutionViewButton onClick={() => {}} />
+                <SolutionViewButton onClick={() => setSolutionOpen(true)} />
               </div>
+
               <TableWrap>
                 <Row2 label="쪽지시험 명" value={item.exam_title} />
                 <Row2 label="과목" value={item.subject_name} />
@@ -107,6 +125,7 @@ export function ExamAttemptDetailModal({ open, onClose, item }: Props) {
                 </h3>
                 <div className="h-9" aria-hidden />
               </div>
+
               <TableWrap>
                 <Row2 label="응시 ID" value={item.history_id} />
                 <Row2 label="닉네임" value={item.nickname} />
@@ -135,12 +154,25 @@ export function ExamAttemptDetailModal({ open, onClose, item }: Props) {
               <Button
                 type="button"
                 variant="danger"
-                className="w-12 px-0"
+                className="h-9 w-[55px] p-0"
                 onClick={() => setDeleteConfirmOpen(true)}
               >
                 삭제
               </Button>
             </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+
+      <Modal
+        isOpen={solutionOpen}
+        onClose={() => setSolutionOpen(false)}
+        size="solution"
+        showCloseButton
+      >
+        <Modal.Body className="bg-grey-50 flex h-full p-0">
+          <div className="flex h-full w-full items-start justify-center">
+            <DetailExamContainer />
           </div>
         </Modal.Body>
       </Modal>
@@ -153,10 +185,7 @@ export function ExamAttemptDetailModal({ open, onClose, item }: Props) {
         description="삭제하면 되돌릴 수 없어요."
         confirmText="삭제"
         cancelText="취소"
-        onConfirm={() => {
-          setDeleteConfirmOpen(false)
-          onClose()
-        }}
+        onConfirm={() => {}}
       />
     </>
   )
