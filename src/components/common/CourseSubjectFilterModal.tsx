@@ -1,7 +1,5 @@
 import { useEffect, useMemo } from 'react'
-import { Button } from '@/components/common/Button'
-import { Dropdown } from '@/components/common/Dropdown'
-import { Modal } from '@/components/common/Modal'
+import { Button, Dropdown, Modal } from '@/components/common'
 
 export type Option = { label: string; value: string }
 
@@ -11,7 +9,7 @@ export type FilterValue = {
   subject: string
 }
 
-export type Props = {
+export type CourseSubjectFilterModalProps = {
   open: boolean
   onClose: () => void
   courseOptions: Option[]
@@ -60,7 +58,7 @@ export default function CourseSubjectFilterModal({
   value,
   onChange,
   onSubmit,
-}: Props) {
+}: CourseSubjectFilterModalProps) {
   useEffect(() => {
     if (!open) return
 

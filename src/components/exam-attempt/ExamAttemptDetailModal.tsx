@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react'
-import { AlertModal } from '@/components/common/AlertModal'
-import { Button } from '@/components/common/Button'
-import { SolutionViewButton } from '@/components/common/SolutionViewButton'
-import { Modal } from '@/components/common/Modal'
+import {
+  AlertModal,
+  Button,
+  Modal,
+  SolutionViewButton,
+} from '@/components/common'
 import type { HistoryItem } from '@/types/history'
 
-type Props = {
+type ExamAttemptDetailModalProps = {
   open: boolean
   onClose: () => void
   item: HistoryItem | null
@@ -56,7 +58,11 @@ function Row4({
   )
 }
 
-export function ExamAttemptDetailModal({ open, onClose, item }: Props) {
+export function ExamAttemptDetailModal({
+  open,
+  onClose,
+  item,
+}: ExamAttemptDetailModalProps) {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
 
   const cohortText = useMemo(() => {
