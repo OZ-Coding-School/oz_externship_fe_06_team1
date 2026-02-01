@@ -93,7 +93,7 @@ export default function CourseSubjectFilterModal({
 
   return (
     <Modal isOpen={open} onClose={onClose} size="filter" showCloseButton>
-      <Modal.Header className="border-b-0 px-10 pt-8 pb-3">
+      <Modal.Header className="border-b-0 px-10 pt-8 pb-2">
         과정-과목별 필터링
         <p className="text-grey-500 mb-1 text-sm">
           필터를 적용할 과정-기수와 과목을 선택해주세요.
