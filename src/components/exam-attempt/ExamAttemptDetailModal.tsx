@@ -75,8 +75,8 @@ export function ExamAttemptDetailModal({
       <Modal
         isOpen={open}
         onClose={onClose}
+        size="attemptDetail"
         showCloseButton
-        className="flex h-[911px] w-[790px] flex-col overflow-hidden"
       >
         <Modal.Body className="flex h-full flex-col px-8 pt-8 pb-6">
           <div className="mb-6">

@@ -83,7 +83,7 @@ export function AlertModal({
   const currentConfig = alertConfig[type]
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} size="sm" showCloseButton>
+    <Modal isOpen={isOpen} onClose={onClose} size="alert" showCloseButton>
       <Modal.Body className="flex flex-col items-center px-10 pt-12 pb-8 text-center">
         <div
           className={cn(

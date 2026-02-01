@@ -92,12 +92,7 @@ export default function CourseSubjectFilterModal({
   const canSubmit = Boolean(value.course && value.cohort && value.subject)
 
   return (
-    <Modal
-      isOpen={open}
-      onClose={onClose}
-      showCloseButton
-      className="flex h-[400px] w-[509px] flex-col overflow-hidden"
-    >
+    <Modal isOpen={open} onClose={onClose} size="filter" showCloseButton>
       <Modal.Header className="border-b-0 px-10 pt-8 pb-3">
         과정-과목별 필터링
         <p className="text-grey-500 mb-1 text-sm">
