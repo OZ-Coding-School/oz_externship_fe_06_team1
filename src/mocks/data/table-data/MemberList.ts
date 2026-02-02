@@ -1,6 +1,6 @@
 import type { Member } from '@/types/member'
 
-export const MEMBER_LIST: Member[] = [
+export const MOCK_MEMBER_LIST: Member[] = [
   {
     id: 1,
     nickname: 'shera',
