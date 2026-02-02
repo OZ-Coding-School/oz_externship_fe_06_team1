@@ -1,13 +1,17 @@
 import { Search } from 'lucide-react'
 import { Button } from './Button'
 
-type Props = {
+type FilterButtonProps = {
   onClick?: () => void
   className?: string
   disabled?: boolean
 }
 
-export function FilterButton({ onClick, className, disabled }: Props) {
+export function FilterButton({
+  onClick,
+  className,
+  disabled,
+}: FilterButtonProps) {
   return (
     <Button
       variant="filter"
