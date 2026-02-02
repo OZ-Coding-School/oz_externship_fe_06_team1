@@ -2,16 +2,17 @@ import { useState } from 'react'
 import type { ExamItem } from '@/types/exam'
 import { DataTable, type Column } from './data-table/DataTable'
 import { Link } from 'react-router-dom'
-import ExamDeployModal from './data-table/deploy-modal/examDeployModal'
+import ExamDeployModal from './data-table/deploy-modal/ExamDeployModal'
+import { Button } from '@/components/common'
 
 const StatusBadge = ({ onDeploy }: { onDeploy: () => void }) => (
-  <button
-    type="button"
-    className="bg-success-400 flex h-[26px] w-[50px] cursor-pointer items-center justify-center rounded text-white hover:opacity-80"
+  <Button
+    variant="success"
+    className="h-[26px] w-[50px] cursor-pointer rounded-sm"
     onClick={onDeploy}
   >
     배포
-  </button>
+  </Button>
 )
 
 const TitleCell = ({ title, to }: { title: string; to: string }) => (
