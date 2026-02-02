@@ -1,14 +1,13 @@
 import { useEffect } from 'react'
-import { Modal } from '@/components/common/Modal'
-import { Button } from '@/components/common/Button'
+import { Modal, Button } from '@/components/common'
 import type { QuestionType, Question } from '@/types/question'
 import { cn } from '@/lib/cn'
+import { QuestionTypeForm } from './problem-forms/renderTypeForm'
 import {
   QuestionInputSection,
   PointSection,
   ExplanationSection,
 } from './problem-forms/common-sections'
-import { QuestionTypeForm } from './problem-forms/renderTypeForm'
 
 import { QUESTION_TYPES } from '@/constants/Question/question-types'
 import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
