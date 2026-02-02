@@ -10,5 +10,5 @@ export type Member = {
   birthDate: string
   role: MemberRole
   status: MemberStatus
-  joinAt: string
+  joinedAt: string
 }
