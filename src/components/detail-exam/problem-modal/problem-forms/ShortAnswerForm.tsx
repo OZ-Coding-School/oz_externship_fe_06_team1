@@ -1,5 +1,5 @@
-import { FormSectionLayout } from './common-sections'
-import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
+import { FormSectionLayout } from '@/components/detail-exam/problem-modal/problem-forms/common-sections'
+import { useProblemFormStore } from '@/store/problem-form/useProblemFormStore'
 
 export function ShortAnswerForm() {
   const { correctAnswers, setCorrectAnswers } = useProblemFormStore()

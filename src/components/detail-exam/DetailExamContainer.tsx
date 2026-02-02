@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import type { Swiper as SwiperClass } from 'swiper'
-import { QuestionList } from './QuestionList'
-import DetailExamFooter from './DetailExamFooter'
-import DetailExamHeader from './DetailExamHeader'
+import { QuestionList } from '@/components/detail-exam'
+import DetailExamFooter from '@/components/detail-exam/DetailExamFooter'
+import DetailExamHeader from '@/components/detail-exam/DetailExamHeader'
 import type { QuestionListResponse } from '@/types/question'
 
 interface DetailExamContainerProps {

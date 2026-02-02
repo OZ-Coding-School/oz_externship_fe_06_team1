@@ -1,8 +1,11 @@
 import { Input } from '@/components/common/Input'
 import { X } from 'lucide-react'
 import PlusSquare from '@/assets/icons/plusSquare.svg?react'
-import { FormSectionLayout, PromptInputSection } from './common-sections'
-import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
+import {
+  FormSectionLayout,
+  PromptInputSection,
+} from '@/components/detail-exam/problem-modal/problem-forms/common-sections'
+import { useProblemFormStore } from '@/store/problem-form/useProblemFormStore'
 
 export function FillBlankForm() {
   const { correctAnswers, setCorrectAnswers, prompt, setPrompt } =

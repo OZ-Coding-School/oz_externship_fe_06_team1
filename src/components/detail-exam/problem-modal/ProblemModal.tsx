@@ -2,15 +2,15 @@ import { useEffect } from 'react'
 import { Modal, Button } from '@/components/common'
 import type { QuestionType, Question } from '@/types/question'
 import { cn } from '@/lib/cn'
-import { QuestionTypeForm } from './problem-forms/renderTypeForm'
+import { QuestionTypeForm } from '@/components/detail-exam/problem-modal/problem-forms'
 import {
   QuestionInputSection,
   PointSection,
   ExplanationSection,
-} from './problem-forms/common-sections'
+} from '@/components/detail-exam/problem-modal/problem-forms/common-sections'
 
 import { QUESTION_TYPES } from '@/constants/Question/question-types'
-import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
+import { useProblemFormStore } from '@/store/problem-form/useProblemFormStore'
 
 interface ProblemModalProps {
   isOpen: boolean

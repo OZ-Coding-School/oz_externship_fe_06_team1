@@ -1,7 +1,7 @@
 import { cn } from '@/lib/cn'
-import { FormSectionLayout } from './common-sections'
 import { Check } from 'lucide-react'
-import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
+import { FormSectionLayout } from '@/components/detail-exam/problem-modal/problem-forms/common-sections'
+import { useProblemFormStore } from '@/store/problem-form/useProblemFormStore'
 
 export function OXForm() {
   const { correctAnswers, setCorrectAnswers } = useProblemFormStore()

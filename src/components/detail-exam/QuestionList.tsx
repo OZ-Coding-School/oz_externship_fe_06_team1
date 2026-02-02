@@ -8,8 +8,8 @@ import {
   ProblemOption,
   ProblemTitle,
   EmptyProblems,
-} from './problem'
-import { Button } from '@/components/common/Button'
+} from '@/components/detail-exam/problem'
+import { Button } from '@/components/common'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import 'swiper/css'
 import { useState } from 'react'

@@ -1,10 +1,11 @@
-import { FillBlankForm } from './FillBlankForm'
-import { MultipleChoiceForm } from './MultipleChoiceForm'
-import { OXForm } from './OXForm'
-import { OrderingForm } from './OrderingForm'
-import { ShortAnswerForm } from './ShortAnswerForm'
-
-import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
+import {
+  FillBlankForm,
+  MultipleChoiceForm,
+  OXForm,
+  OrderingForm,
+  ShortAnswerForm,
+} from '@/components/detail-exam/problem-modal/problem-forms'
+import { useProblemFormStore } from '@/store/problem-form/useProblemFormStore'
 
 export function QuestionTypeForm() {
   const { type } = useProblemFormStore()

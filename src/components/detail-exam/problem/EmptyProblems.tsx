@@ -1,5 +1,5 @@
 import EmptyFace from '@/assets/icons/EmptyFace.svg?react'
-import { ProblemHeader } from './ProblemHeader'
+import { ProblemHeader } from '@/components/detail-exam/problem'
 import ProblemModal from '@/components/detail-exam/problem-modal/ProblemModal'
 import { useState } from 'react'
 

@@ -1,4 +1,4 @@
-import { FormSectionLayout } from './FormSectionLayout'
+import { FormSectionLayout } from '@/components/detail-exam/problem-modal/problem-forms/common-sections'
 
 // 지문 등록(Prompt) 입력 섹션
 export function PromptInputSection({

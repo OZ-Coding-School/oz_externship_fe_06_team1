@@ -1,8 +1,8 @@
-import { Input } from '@/components/common/Input'
+import { Input } from '@/components/common'
 import { X, Check } from 'lucide-react'
 import PlusSquare from '@/assets/icons/plusSquare.svg?react'
-import { FormSectionLayout } from './common-sections'
-import { useProblemFormStore } from '@/store/ProblemForm/useProblemFormStore'
+import { FormSectionLayout } from '@/components/detail-exam/problem-modal/problem-forms/common-sections'
+import { useProblemFormStore } from '@/store/problem-form/useProblemFormStore'
 
 export function MultipleChoiceForm() {
   const { options, setOptions, correctAnswers, setCorrectAnswers } =
