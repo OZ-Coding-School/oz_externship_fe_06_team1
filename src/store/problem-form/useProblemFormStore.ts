@@ -96,23 +96,26 @@ export const useProblemFormStore = create<ProblemFormState>((set) => ({
     })
 
     switch (type) {
-      case 'multiple_choice':
-        // 다지선다형
-        // 객관식: "0,2" -> [0, 2]
+      case 'multiple_choice': {
+        const targetOptions = options ?? ['', '']
+        const answersArray = Array.isArray(correct_answer)
+          ? correct_answer
+          : [correct_answer]
+
+        // 텍스트 정답을 기반으로 해당 옵션의 인덱스들을 찾아냄
+        const targetAnswer = answersArray
+          .map((answer) => targetOptions.indexOf(String(answer)))
+          .filter((idx) => idx !== -1)
+
         set({
-          options: options ?? ['', ''],
-          correctAnswers:
-            typeof correct_answer === 'string'
-              ? correct_answer.split(',')
-              : Array.isArray(correct_answer)
-                ? correct_answer
-                : [0],
+          options: targetOptions,
+          correctAnswers: targetAnswer,
         })
         break
+      }
 
       case 'ox':
         // ox 형
-        // OX: "O" -> [0], "X" -> [1] 로 판단
         set({
           correctAnswers:
             correct_answer === 'O' ||
@@ -122,23 +125,25 @@ export const useProblemFormStore = create<ProblemFormState>((set) => ({
         })
         break
 
-      case 'ordering':
-        // 순서 정렬
-        // 순서정렬: "2,0,1" -> [2, 0, 1]
+      case 'ordering': {
+        const targetOptions = options ?? ['', '']
+        const answersArray = correct_answer as string[]
+
+        // 각 옵션이 정답 배열(answersArray)의 몇 번째 순서(Rank)인지를 찾아 배열 생성
+        const ranks = targetOptions.map((opt) => {
+          const rank = answersArray.indexOf(String(opt))
+          return rank !== -1 ? rank : 0
+        })
+
         set({
-          options: options ?? ['', ''],
-          correctAnswers:
-            typeof correct_answer === 'string'
-              ? correct_answer.split(',').map(Number)
-              : Array.isArray(correct_answer)
-                ? correct_answer.map(Number)
-                : [],
+          options: targetOptions,
+          correctAnswers: ranks,
         })
         break
+      }
 
       case 'short_answer':
         // 주관식 단답형
-        // 단답형: 그대로 사용
         set({
           correctAnswers: (correct_answer as string) ?? '',
         })
@@ -146,8 +151,8 @@ export const useProblemFormStore = create<ProblemFormState>((set) => ({
 
       case 'fill_blank':
         // 빈칸
-        // 빈칸: 배열 그대로 사용
         set({
+          options: options ?? ['', ''],
           correctAnswers: correct_answer,
           blankCount: Array.isArray(correct_answer)
             ? correct_answer.length
