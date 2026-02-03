@@ -135,8 +135,7 @@ export function MemberDetailModal({
       <Modal
         isOpen={open}
         onClose={handleCloseDetail}
-        size="md"
-        className="border-grey-200 h-[871px] w-[850px] rounded-[6px] border"
+        className="border-grey-200 h-[871px] w-[850px] max-w-none rounded-[6px] border"
         showCloseButton
       >
         <Modal.Body className="flex h-full flex-col px-8 pt-8 pb-6">
