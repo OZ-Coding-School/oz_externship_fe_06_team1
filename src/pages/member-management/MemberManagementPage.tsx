@@ -90,7 +90,7 @@ export default function MemberManagementPage() {
             />
           </div>
 
-          <Button variant="memberSearch" size="memberSearch">
+          <Button variant="search" size="search">
             조회
           </Button>
         </>
