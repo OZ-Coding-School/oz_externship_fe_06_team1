@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Button, Dropdown, Input } from '@/components/common'
-import { MemberDetailModal } from '@/components/member-management'
+import { MemberDetailModal } from '@/components/member-management/MemberDetailModal'
 import { MemberManagementLayout } from '@/components/layout'
 import MemberList from '@/components/table/MemberList'
 import type { Member, MemberRole } from '@/types/member'
