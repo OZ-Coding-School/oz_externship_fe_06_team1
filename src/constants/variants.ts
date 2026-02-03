@@ -29,7 +29,7 @@ export const buttonVariants = cva(
       variant: {
         primary: 'bg-primary-700 text-white hover:opacity-90',
         secondary: 'bg-grey-400 text-white hover:opacity-90',
-        memberSearch: 'bg-grey-600 text-white hover:opacity-90',
+        search: 'bg-grey-600 text-white hover:opacity-90',
         outline:
           'border border-grey-300 bg-white text-grey-600 hover:bg-grey-50',
         confirm: 'bg-primary-600 text-white hover:opacity-90',
@@ -38,12 +38,12 @@ export const buttonVariants = cva(
         danger: 'bg-error-400 text-white hover:opacity-80',
         ghost: 'bg-transparent text-grey-600 hover:bg-grey-100',
         filter:
-          'bg-primary-50 text-primary-300 hover:bg-primary-300 border-none shadow-none pr-1.5',
+          'bg-primary-50 text-primary-700 hover:bg-primary-300 border-none shadow-none pr-1.5',
       },
       size: {
         default: 'h-10 px-4 py-2.5',
         sm: 'h-9 px-4 text-xs',
-        memberSearch: 'h-9 w-[70px] px-0 rounded-[3px] text-sm',
+        search: 'h-9 w-[70px] px-0 rounded-[3px] text-sm',
         lg: 'h-14 px-10 text-base',
         icon: 'h-6 w-6 p-0',
       },
@@ -161,7 +161,7 @@ export const modalVariants = cva(
         lg: 'max-w-[900px] rounded-xl',
         full: 'max-w-[95vw] h-[90vh] rounded-xl',
 
-        filter: 'w-[509px] h-[400px] rounded-xl border border-grey-200',
+        filter: 'w-[509px] rounded-md',
         attemptDetail:
           'w-[790px] h-[911px] rounded-[6px] border border-grey-200',
         solution: 'w-[1540px] h-[780px] rounded-[12px] border border-grey-200',
