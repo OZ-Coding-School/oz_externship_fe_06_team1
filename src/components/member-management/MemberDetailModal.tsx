@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import { AlertModal, Button, MemberStatusBadge } from '@/components/common'
 import { Modal } from '@/components/common/Modal'
-import { MOCK_MEMBER_DETAIL_MAP } from '../../mocks/data/member-detail'
+import ModifyPermissionModal, {
+  type Option,
+  type PermissionValue,
+} from './ModifyPermissionModal'
+import { MOCK_MEMBER_DETAIL_MAP } from '@/mocks/data/member-detail'
 import type { Member, MemberDetail } from '@/types'
 import memberImg from '@/assets/MemberImg.jpeg'
 
@@ -105,6 +109,13 @@ export function MemberDetailModal({
   member,
 }: MemberDetailModalProps) {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
+  const [permissionModalOpen, setPermissionModalOpen] = useState(false)
+
+  const [permissionValue, setPermissionValue] = useState<PermissionValue>({
+    role: '',
+    course: '',
+    cohort: '',
+  })
 
   const detail = useMemo<MemberDetail | null>(() => {
     if (!member) return null
@@ -120,14 +131,56 @@ export function MemberDetailModal({
   }, [member])
 
   useEffect(() => {
-    if (!open) setDeleteConfirmOpen(false)
+    if (!open) {
+      setDeleteConfirmOpen(false)
+      setPermissionModalOpen(false)
+    }
   }, [open])
 
   if (!member || !detail) return null
 
   const handleCloseDetail = () => {
     setDeleteConfirmOpen(false)
+    setPermissionModalOpen(false)
     onClose()
+  }
+
+  const roleOptions: Option[] = [
+    { label: '수강생', value: '수강생' },
+    { label: '멘토', value: '멘토' },
+    { label: '관리자', value: '관리자' },
+  ]
+
+  const courseOptions: Option[] = Array.from(
+    new Set([
+      ...(detail.ongoingCourses ?? []),
+      ...(detail.completedCourses ?? []),
+    ])
+  ).map((c) => ({ label: c, value: c }))
+
+  const cohortOptions: Option[] = [
+    { label: '11기', value: '11기' },
+    { label: '12기', value: '12기' },
+    { label: '13기', value: '13기' },
+  ]
+
+  const openPermissionModal = () => {
+    const initialCourse = courseOptions[0]?.value ?? ''
+    const initialRole = detail.role || roleOptions[0].value
+    const initialCohort = cohortOptions[0].value
+
+    setPermissionValue({
+      role: initialRole,
+      course: initialCourse,
+      cohort: initialCohort,
+    })
+    setPermissionModalOpen(true)
+  }
+
+  const closePermissionModal = () => setPermissionModalOpen(false)
+
+  const submitPermissionModal = () => {
+    setPermissionModalOpen(false)
   }
 
   return (
@@ -217,6 +270,7 @@ export function MemberDetailModal({
                 type="button"
                 variant="success"
                 className="h-[36px] w-[72px] rounded-[3px]"
+                onClick={openPermissionModal}
               >
                 권한 변경
               </Button>
@@ -251,6 +305,17 @@ export function MemberDetailModal({
         confirmText="확인"
         showCancel
         onConfirm={() => {}}
+      />
+
+      <ModifyPermissionModal
+        open={permissionModalOpen}
+        onClose={closePermissionModal}
+        roleOptions={roleOptions}
+        courseOptions={courseOptions}
+        cohortOptions={cohortOptions}
+        value={permissionValue}
+        onChange={setPermissionValue}
+        onSubmit={submitPermissionModal}
       />
     </>
   )
