@@ -9,10 +9,14 @@ export const badgeVariants = cva(
         primary: 'bg-primary-50 text-primary-600',
         success: 'bg-success-100 text-success-400',
         danger: 'bg-error-100 text-error-400',
+        memberActivated: 'bg-primary-300 text-primary-600',
+        memberDisabled: 'bg-error-100 text-error-400',
+        memberWithdraw: 'bg-success-100 text-success-400',
       },
       size: {
         sm: 'text-[10px] px-1.5 py-0.5 h-5',
         md: 'text-sm px-2.5 py-1 h-7',
+        status: 'h-[24px] w-[69px] text-xs rounded-[3px]',
       },
     },
     defaultVariants: {
