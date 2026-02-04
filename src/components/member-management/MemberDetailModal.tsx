@@ -118,6 +118,7 @@ export function MemberDetailModal({
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false)
 
   const permissionModalRootRef = useRef<HTMLDivElement | null>(null)
+  const deleteConfirmRootRef = useRef<HTMLDivElement | null>(null)
 
   const [permissionValue, setPermissionValue] = useState<PermissionValue>({
     role: '',
@@ -196,7 +197,7 @@ export function MemberDetailModal({
         className="border-grey-200 h-[871px] w-[850px] max-w-none rounded-[6px] border"
         showCloseButton
         ignoreRefs={[permissionModalRootRef]}
-        outsideCloseEnabled={!permissionModalOpen}
+        outsideCloseEnabled={!permissionModalOpen && !deleteConfirmOpen}
       >
         <Modal.Body className="flex h-full flex-col px-8 pt-8 pb-6">
           <div className="mb-6">
@@ -305,21 +306,23 @@ export function MemberDetailModal({
         </Modal.Body>
       </Modal>
 
-      <AlertModal
-        isOpen={deleteConfirmOpen}
-        onClose={() => setDeleteConfirmOpen(false)}
-        type="danger"
-        title="해당 회원 정보를 정말 삭제하시겠습니까?"
-        description="회원 정보를 삭제하면 다시 되돌릴 수 없습니다."
-        confirmText="삭제"
-        showCancel
-        onConfirm={() => {
-          if (!member) return
-          onDeleteConfirm?.(member)
-          setDeleteConfirmOpen(false)
-          handleCloseDetail()
-        }}
-      />
+      <div ref={deleteConfirmRootRef}>
+        <AlertModal
+          isOpen={deleteConfirmOpen}
+          onClose={() => setDeleteConfirmOpen(false)}
+          type="danger"
+          title="해당 회원 정보를 정말 삭제하시겠습니까?"
+          description="회원 정보를 삭제하면 다시 되돌릴 수 없습니다."
+          confirmText="삭제"
+          showCancel
+          onConfirm={() => {
+            if (!member) return
+            onDeleteConfirm?.(member)
+            setDeleteConfirmOpen(false)
+            handleCloseDetail()
+          }}
+        />
+      </div>
 
       <ModifyPermissionModal
         open={permissionModalOpen}

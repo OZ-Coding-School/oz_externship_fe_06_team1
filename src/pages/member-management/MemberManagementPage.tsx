@@ -18,12 +18,12 @@ const STATUS_OPTIONS: DropdownOption[] = [
   { label: 'Disabled', value: 'Disabled' },
   { label: 'Withdraw', value: 'Withdraw' },
 ]
-
+/* API 연동 시 필요
 type ToastState = {
   open: boolean
   variant: 'success' | 'error'
   message: string
-}
+} */
 
 export default function MemberManagementPage() {
   const [roleInput, setRoleInput] = useState<MemberRole | undefined>()
@@ -61,15 +61,15 @@ export default function MemberManagementPage() {
     })
   }, [memberList, role, status, keyword])
 
-  /* useEffect(() => {
-    if (!toast.open) return
+  useEffect(() => {
+    if (!isToastOpen) return
 
     const timer = setTimeout(() => {
-      setToast((prev) => ({ ...prev, open: false }))
+      setToastOpen(false)
     }, 3000)
 
     return () => clearTimeout(timer)
-  }, [toast.open]) */
+  }, [isToastOpen])
 
   const openMemberDetail = (member: Member) => {
     setSelectedMember(member)
@@ -147,10 +147,10 @@ export default function MemberManagementPage() {
       />
 
       {isToastOpen && (
-        <div className="fixed right-6 bottom-6 z-[9999]">
+        <div className="fixed right-[30px] bottom-[30px] z-[9999]">
           <Toast
             variant={'success'}
-            message={'message'}
+            message={'성공적으로 삭제가 완료되었습니다.'}
             onClose={() => setToastOpen(false)}
           />
         </div>
