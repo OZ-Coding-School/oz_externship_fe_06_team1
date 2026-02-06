@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import CourseSubjectFilterModal, {
   type FilterValue,
@@ -25,9 +25,46 @@ export function ExamHistoryPage() {
   const [selectedItem, setSelectedItem] = useState<HistoryItem | null>(null)
   const showToast = useToastStore((state) => state.showToast)
 
-  const courseOptions: Option[] = []
-  const cohortOptions: Option[] = []
-  const subjectOptions: Option[] = []
+  const submissions = MOCK_HISTORY_LIST_RESPONSE.submissions
+
+  const courseOptions = useMemo<Option[]>(() => {
+    const seen = new Set<string>()
+    return submissions.reduce<Option[]>((acc, item) => {
+      if (seen.has(item.course_name)) return acc
+      seen.add(item.course_name)
+      acc.push({ label: item.course_name, value: item.course_name })
+      return acc
+    }, [])
+  }, [submissions])
+
+  const cohortOptions = useMemo<Option[]>(() => {
+    if (!filter.course) return []
+    const seen = new Set<number>()
+    return submissions.reduce<Option[]>((acc, item) => {
+      if (item.course_name !== filter.course) return acc
+      if (seen.has(item.cohort_number)) return acc
+      seen.add(item.cohort_number)
+      acc.push({
+        label: `${item.cohort_number}기`,
+        value: String(item.cohort_number),
+      })
+      return acc
+    }, [])
+  }, [filter.course, submissions])
+
+  const subjectOptions = useMemo<Option[]>(() => {
+    if (!filter.course || !filter.cohort) return []
+    const cohortNumber = Number(filter.cohort)
+    const seen = new Set<string>()
+    return submissions.reduce<Option[]>((acc, item) => {
+      if (item.course_name !== filter.course) return acc
+      if (item.cohort_number !== cohortNumber) return acc
+      if (seen.has(item.subject_name)) return acc
+      seen.add(item.subject_name)
+      acc.push({ label: item.subject_name, value: item.subject_name })
+      return acc
+    }, [])
+  }, [filter.course, filter.cohort, submissions])
 
   const handleOpenFilter = () => setIsFilterOpen(true)
   const handleCloseFilter = () => setIsFilterOpen(false)
@@ -49,7 +86,6 @@ export function ExamHistoryPage() {
     setSelectedItem(null)
   }
 
-  const submissions = MOCK_HISTORY_LIST_RESPONSE.submissions
   const handleDeleteConfirm = () => {
     showToast({
       variant: 'success',
