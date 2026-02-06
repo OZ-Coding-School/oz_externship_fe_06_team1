@@ -12,6 +12,7 @@ import { MOCK_HISTORY_LIST_RESPONSE } from '@/mocks/data/table-data/HistoryList'
 import type { HistoryItem } from '@/types/history'
 import BackCircleIcon from '@/assets/icons/BackCircle.svg?react'
 import CloseIcon from '@/assets/icons/Close.svg?react'
+import { useToastStore } from '@/store'
 
 type LocationState = {
   filter?: FilterValue
@@ -38,6 +39,7 @@ export function FilteredExamHistoryPage() {
 
   const [detailOpen, setDetailOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState<HistoryItem | null>(null)
+  const showToast = useToastStore((state) => state.showToast)
 
   const submissions = MOCK_HISTORY_LIST_RESPONSE.submissions
 
@@ -141,6 +143,13 @@ export function FilteredExamHistoryPage() {
     navigate('/exam/history')
   }
 
+  const handleDeleteConfirm = () => {
+    showToast({
+      variant: 'success',
+      message: '응시 내역 삭제가 완료되었습니다.',
+    })
+  }
+
   return (
     isValidFilter && (
       <>
@@ -191,6 +200,7 @@ export function FilteredExamHistoryPage() {
           open={detailOpen}
           onClose={handleCloseDetail}
           item={selectedItem}
+          onDeleteConfirm={handleDeleteConfirm}
         />
       </>
     )

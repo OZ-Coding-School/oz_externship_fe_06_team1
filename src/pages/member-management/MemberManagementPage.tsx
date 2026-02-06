@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Button, Dropdown, Input, Toast } from '@/components/common'
+import { useMemo, useState } from 'react'
+import { Button, Dropdown, Input } from '@/components/common'
 import { MemberDetailModal } from '@/components/member-management/MemberDetailModal'
 import { MemberEditModal } from '@/components/member-management/MemberEditModal'
 import { MemberManagementLayout } from '@/components/layout'
@@ -8,6 +8,7 @@ import type { Member, MemberRole } from '@/types'
 import { MOCK_MEMBER_LIST_RESPONSE } from '@/mocks/data/table-data/MemberList'
 import { MOCK_MEMBER_DETAIL_MAP } from '@/mocks/data/member-detail'
 import type { DropdownOption } from '@/types/commonComponents'
+import { useToastStore } from '@/store'
 
 const ROLE_OPTIONS: DropdownOption[] = [
   { label: 'Admin', value: 'Admin' },
@@ -41,7 +42,7 @@ export function MemberManagementPage() {
     MOCK_MEMBER_LIST_RESPONSE.members
   )
 
-  const [isToastOpen, setToastOpen] = useState<boolean>(false)
+  const showToast = useToastStore((state) => state.showToast)
 
   const handleSearch = () => {
     setRole(roleInput ?? 'ALL')
@@ -64,16 +65,6 @@ export function MemberManagementPage() {
     })
   }, [memberList, role, status, keyword])
 
-  useEffect(() => {
-    if (!isToastOpen) return
-
-    const timer = setTimeout(() => {
-      setToastOpen(false)
-    }, 3000)
-
-    return () => clearTimeout(timer)
-  }, [isToastOpen])
-
   const openMemberDetail = (member: Member) => {
     setSelectedMember(member)
     setDetailOpen(true)
@@ -81,6 +72,12 @@ export function MemberManagementPage() {
 
   const closeMemberDetail = () => {
     setDetailOpen(false)
+    setSelectedMember(null)
+  }
+
+  const closeAllModals = () => {
+    setDetailOpen(false)
+    setEditOpen(false)
     setSelectedMember(null)
   }
 
@@ -95,11 +92,22 @@ export function MemberManagementPage() {
   }
 
   const handleDeleteConfirm = (member: Member) => {
-    closeMemberDetail()
+    closeAllModals()
 
     setMemberList((prev) => prev.filter((m) => m.id !== member.id))
 
-    setToastOpen(true)
+    showToast({
+      variant: 'success',
+      message: '성공적으로 삭제가 완료되었습니다.',
+    })
+  }
+
+  const handlePermissionConfirm = () => {
+    closeAllModals()
+    showToast({
+      variant: 'success',
+      message: '권한 변경이 완료되었습니다.',
+    })
   }
 
   const selectedDetail = useMemo(() => {
@@ -191,6 +199,7 @@ export function MemberManagementPage() {
         member={selectedMember}
         onDeleteConfirm={handleDeleteConfirm}
         onEdit={openMemberEdit}
+        onPermissionConfirm={handlePermissionConfirm}
       />
 
       <MemberEditModal
@@ -200,16 +209,6 @@ export function MemberManagementPage() {
         courseOptions={courseOptions}
         cohortOptions={cohortOptions}
       />
-
-      {isToastOpen && (
-        <div className="fixed right-[30px] bottom-[30px] z-[9999]">
-          <Toast
-            variant={'success'}
-            message={'성공적으로 삭제가 완료되었습니다.'}
-            onClose={() => setToastOpen(false)}
-          />
-        </div>
-      )}
     </>
   )
 }

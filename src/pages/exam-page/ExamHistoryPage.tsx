@@ -10,6 +10,7 @@ import { ExamHistoryLayout } from '@/components/layout'
 import HistoryList from '@/components/table/HistoryList'
 import { MOCK_HISTORY_LIST_RESPONSE } from '@/mocks/data/table-data/HistoryList'
 import type { HistoryItem } from '@/types/history'
+import { useToastStore } from '@/store'
 
 export function ExamHistoryPage() {
   const navigate = useNavigate()
@@ -22,6 +23,7 @@ export function ExamHistoryPage() {
 
   const [detailOpen, setDetailOpen] = useState(false)
   const [selectedItem, setSelectedItem] = useState<HistoryItem | null>(null)
+  const showToast = useToastStore((state) => state.showToast)
 
   const courseOptions: Option[] = []
   const cohortOptions: Option[] = []
@@ -48,11 +50,17 @@ export function ExamHistoryPage() {
   }
 
   const submissions = MOCK_HISTORY_LIST_RESPONSE.submissions
+  const handleDeleteConfirm = () => {
+    showToast({
+      variant: 'success',
+      message: '응시 내역 삭제가 완료되었습니다.',
+    })
+  }
 
   return (
     <>
       <ExamHistoryLayout
-        title="쪽지시험 응시 내역 조회"
+        title={<span className="text-base">쪽지시험 응시 내역 조회</span>}
         headerRight={<FilterButton onClick={handleOpenFilter} />}
       >
         <HistoryList
@@ -76,6 +84,7 @@ export function ExamHistoryPage() {
         open={detailOpen}
         onClose={handleCloseDetail}
         item={selectedItem}
+        onDeleteConfirm={handleDeleteConfirm}
       />
     </>
   )
