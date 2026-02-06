@@ -20,5 +20,5 @@ export type MemberDetail = Member & {
   phone?: string
   profileImageUrl?: string
   ongoingCourses?: string[]
-  completedCourses?: string[]
+  cohorts?: string[]
 }
