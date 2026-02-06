@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import CourseSubjectFilterModal, {
   type FilterValue,
   type Option,
@@ -7,9 +8,11 @@ import { FilterButton } from '@/components/common'
 import { ExamAttemptDetailModal } from '@/components/exam-attempt'
 import { ExamHistoryLayout } from '@/components/layout'
 import HistoryList from '@/components/table/HistoryList'
+import { MOCK_HISTORY_LIST_RESPONSE } from '@/mocks/data/table-data/HistoryList'
 import type { HistoryItem } from '@/types/history'
 
 export function ExamHistoryPage() {
+  const navigate = useNavigate()
   const [isFilterOpen, setIsFilterOpen] = useState(false)
   const [filter, setFilter] = useState<FilterValue>({
     course: '',
@@ -31,6 +34,7 @@ export function ExamHistoryPage() {
 
   const handleSubmitFilter = () => {
     setIsFilterOpen(false)
+    navigate('/exam/history/filtered', { state: { filter } })
   }
 
   const handleOpenDetail = (item: HistoryItem) => {
@@ -43,13 +47,18 @@ export function ExamHistoryPage() {
     setSelectedItem(null)
   }
 
+  const submissions = MOCK_HISTORY_LIST_RESPONSE.submissions
+
   return (
     <>
       <ExamHistoryLayout
         title="쪽지시험 응시 내역 조회"
         headerRight={<FilterButton onClick={handleOpenFilter} />}
       >
-        <HistoryList onClickTitle={handleOpenDetail} />
+        <HistoryList
+          onClickTitle={handleOpenDetail}
+          submissions={submissions}
+        />
       </ExamHistoryLayout>
 
       <CourseSubjectFilterModal
