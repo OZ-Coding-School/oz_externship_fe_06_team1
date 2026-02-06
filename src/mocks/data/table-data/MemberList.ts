@@ -1,3 +1,4 @@
+import memberImg from '@/assets/MemberImg.jpeg'
 import type { MemberDetail } from '@/types/member'
 
 export const MOCK_MEMBER_LIST: MemberDetail[] = [
@@ -8,7 +9,7 @@ export const MOCK_MEMBER_LIST: MemberDetail[] = [
     email: 'teddy519@example.com',
     phone: '010-1111-2222',
     gender: '남',
-    profileImageUrl: '',
+    profileImageUrl: memberImg,
     birthDate: '2021-05-19',
     role: 'Admin',
     status: 'Activated',
