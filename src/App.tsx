@@ -1,15 +1,10 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { AdminLayout } from '@/components/layout'
-import {
-  GlobalAlertModal,
-  GlobalToast,
-  ErrorCatcher,
-} from '@/components/common'
+import { GlobalAlertModal, ErrorCatcher } from '@/components/common'
 import { LoginPage } from '@/pages/login'
 import {
   DetailExamPage,
   ExamDashboardPage,
-  FilteredExamHistoryPage,
   ExamHistoryPage,
   ExamListPage,
 } from '@/pages/exam-page'
@@ -32,10 +27,6 @@ export default function App() {
           <Route path="/exam">
             <Route path="/exam/dashboard" element={<ExamDashboardPage />} />
             <Route path="/exam/history" element={<ExamHistoryPage />} />
-            <Route
-              path="/exam/history/filtered"
-              element={<FilteredExamHistoryPage />}
-            />
             <Route path="/exam/list" element={<ExamListPage />} />
             <Route path="/exam/list/:id" element={<DetailExamPage />} />
           </Route>
@@ -66,7 +57,6 @@ export default function App() {
         </Route>
       </Routes>
       <GlobalAlertModal />
-      <GlobalToast />
       <ErrorCatcher />
     </>
   )

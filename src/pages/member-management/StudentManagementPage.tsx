@@ -1,5 +1,4 @@
-import { MemberManagementLayout } from '@/components/layout'
-import MemberList from '@/components/table/MemberList'
+import ManagementPage from './ManagementPage'
 import { MOCK_MEMBER_LIST_RESPONSE } from '@/mocks/data/table-data/MemberList'
 
 export function StudentManagementPage() {
@@ -8,8 +7,11 @@ export function StudentManagementPage() {
   )
 
   return (
-    <MemberManagementLayout title="수강생 관리">
-      <MemberList data={studentList} />
-    </MemberManagementLayout>
+    <ManagementPage
+      title="수강생 관리"
+      listVariant="student"
+      listData={studentList}
+      enableDetail={false}
+    />
   )
 }

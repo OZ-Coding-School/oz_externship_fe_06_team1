@@ -36,6 +36,7 @@ export default function ManagementPage({
   listData,
   enableDetail = true,
 }: ManagementPageProps) {
+  const showRoleFilter = listVariant === 'member'
   const [roleInput, setRoleInput] = useState<MemberRole | undefined>()
   const [statusInput, setStatusInput] = useState<Member['status'] | undefined>()
   const [keywordInput, setKeywordInput] = useState('')
@@ -59,7 +60,9 @@ export default function ManagementPage({
     const kw = keyword.trim().toLowerCase()
 
     return memberList.filter((m: Member) => {
-      const roleMatch = role === 'ALL' ? true : m.role === role
+      const roleMatch = showRoleFilter
+        ? role === 'ALL' || m.role === role
+        : true
       const statusMatch = status === 'ALL' ? true : m.status === status
 
       const keywordMatch = kw
@@ -68,7 +71,7 @@ export default function ManagementPage({
 
       return roleMatch && statusMatch && keywordMatch
     })
-  }, [memberList, role, status, keyword])
+  }, [memberList, role, showRoleFilter, status, keyword])
 
   useEffect(() => {
     if (!isToastOpen) return
@@ -149,16 +152,18 @@ export default function ManagementPage({
         title={title}
         toolbar={
           <>
-            <div className="w-[140px]">
-              <Dropdown
-                variant="memberFilter"
-                size="sm"
-                placeholder="권한"
-                options={ROLE_OPTIONS}
-                value={roleInput}
-                onChange={(v) => setRoleInput(v as MemberRole)}
-              />
-            </div>
+            {showRoleFilter && (
+              <div className="w-[140px]">
+                <Dropdown
+                  variant="memberFilter"
+                  size="sm"
+                  placeholder="권한"
+                  options={ROLE_OPTIONS}
+                  value={roleInput}
+                  onChange={(v) => setRoleInput(v as MemberRole)}
+                />
+              </div>
+            )}
 
             <div className="w-[171px]">
               <Dropdown
