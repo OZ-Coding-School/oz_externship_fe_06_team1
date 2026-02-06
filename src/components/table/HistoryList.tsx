@@ -51,13 +51,15 @@ const COLUMNS = (
   {
     key: 'nickname',
     title: '닉네임',
-    size: 'lg',
+    size: 'xl',
+    className: 'min-w-[220px]',
     cell: (item) => item.nickname,
   },
   {
     key: 'cohort',
     title: '과정/기수',
     size: 'xl',
+    className: 'whitespace-nowrap',
     cell: (item) => `${item.course_name} ${item.cohort_number}기`,
   },
   {
