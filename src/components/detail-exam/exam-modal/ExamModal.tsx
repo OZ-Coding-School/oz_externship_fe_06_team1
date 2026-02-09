@@ -177,7 +177,7 @@ export default function ExamModal({
             variant="filter"
             onClick={handleSave}
             className="rounded-sm text-sm font-normal"
-            disabled={isSubmitting || isUploading}
+            disabled={isSubmitting || isUploading || !subjectId}
           >
             {isSubmitting ? '...' : '저장'}
           </Button>
