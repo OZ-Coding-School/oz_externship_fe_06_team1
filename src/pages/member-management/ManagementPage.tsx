@@ -49,6 +49,8 @@ export default function ManagementPage({
   const [memberList, setMemberList] = useState(listData)
 
   const [isToastOpen, setToastOpen] = useState<boolean>(false)
+  const [toastMessage, setToastMessage] =
+    useState('성공적으로 삭제가 완료되었습니다.')
 
   const handleSearch = () => {
     setRole(roleInput ?? 'ALL')
@@ -109,6 +111,12 @@ export default function ManagementPage({
 
     setMemberList((prev) => prev.filter((m) => m.id !== member.id))
 
+    setToastMessage('성공적으로 삭제가 완료되었습니다.')
+    setToastOpen(true)
+  }
+
+  const handleEditSave = () => {
+    setToastMessage('성공적으로 수정이 완료되었습니다.')
     setToastOpen(true)
   }
 
@@ -218,6 +226,7 @@ export default function ManagementPage({
             detail={selectedDetail}
             courseOptions={courseOptions}
             cohortOptions={cohortOptions}
+            onSave={handleEditSave}
           />
         </>
       )}
@@ -226,7 +235,7 @@ export default function ManagementPage({
         <div className="fixed right-[30px] bottom-[30px] z-[9999]">
           <Toast
             variant={'success'}
-            message={'성공적으로 삭제가 완료되었습니다.'}
+            message={toastMessage}
             onClose={() => setToastOpen(false)}
           />
         </div>

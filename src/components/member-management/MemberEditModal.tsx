@@ -326,7 +326,10 @@ export function MemberEditModal({
           size="search"
           className="h-[36px] w-[55px] rounded-[3px]"
           disabled={!canSubmit}
-          onClick={onSave}
+          onClick={() => {
+            onSave?.()
+            onClose()
+          }}
         >
           저장
         </Button>
