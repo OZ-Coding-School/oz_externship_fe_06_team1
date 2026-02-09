@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Button, Dropdown, Input, Toast } from '@/components/common'
+import { useMemo, useState } from 'react'
+import { Button, Dropdown, Input } from '@/components/common'
 import { MemberDetailModal } from '@/components/member-management/MemberDetailModal'
 import { MemberEditModal } from '@/components/member-management/MemberEditModal'
 import { MemberManagementLayout } from '@/components/layout'
@@ -7,6 +7,7 @@ import MemberList from '@/components/table/MemberList'
 import type { Member, MemberRole } from '@/types'
 import { MOCK_MEMBER_DETAIL_MAP } from '@/mocks/data/member-detail'
 import type { DropdownOption } from '@/types/commonComponents'
+import { useToastStore } from '@/store'
 
 const ROLE_OPTIONS: DropdownOption[] = [
   { label: 'Admin', value: 'Admin' },
@@ -47,10 +48,7 @@ export default function ManagementPage({
   const [editOpen, setEditOpen] = useState(false)
   const [selectedMember, setSelectedMember] = useState<Member | null>(null)
   const [memberList, setMemberList] = useState(listData)
-
-  const [isToastOpen, setToastOpen] = useState<boolean>(false)
-  const [toastMessage, setToastMessage] =
-    useState('성공적으로 삭제가 완료되었습니다.')
+  const showToast = useToastStore((state) => state.showToast)
 
   const handleSearch = () => {
     setRole(roleInput ?? 'ALL')
@@ -74,16 +72,6 @@ export default function ManagementPage({
       return roleMatch && statusMatch && keywordMatch
     })
   }, [memberList, role, showRoleFilter, status, keyword])
-
-  useEffect(() => {
-    if (!isToastOpen) return
-
-    const timer = setTimeout(() => {
-      setToastOpen(false)
-    }, 3000)
-
-    return () => clearTimeout(timer)
-  }, [isToastOpen])
 
   const openMemberDetail = (member: Member) => {
     if (!enableDetail) return
@@ -111,13 +99,17 @@ export default function ManagementPage({
 
     setMemberList((prev) => prev.filter((m) => m.id !== member.id))
 
-    setToastMessage('성공적으로 삭제가 완료되었습니다.')
-    setToastOpen(true)
+    showToast({
+      variant: 'success',
+      message: '성공적으로 삭제가 완료되었습니다.',
+    })
   }
 
   const handleEditSave = () => {
-    setToastMessage('성공적으로 수정이 완료되었습니다.')
-    setToastOpen(true)
+    showToast({
+      variant: 'success',
+      message: '성공적으로 수정이 완료되었습니다.',
+    })
   }
 
   const selectedDetail = useMemo(() => {
@@ -229,16 +221,6 @@ export default function ManagementPage({
             onSave={handleEditSave}
           />
         </>
-      )}
-
-      {isToastOpen && (
-        <div className="fixed right-[30px] bottom-[30px] z-[9999]">
-          <Toast
-            variant={'success'}
-            message={toastMessage}
-            onClose={() => setToastOpen(false)}
-          />
-        </div>
       )}
     </>
   )
