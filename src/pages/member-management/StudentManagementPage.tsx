@@ -1,7 +1,7 @@
 import ManagementPage from './ManagementPage'
 import { MOCK_MEMBER_LIST_RESPONSE } from '@/mocks/data/table-data/MemberList'
 
-export default function StudentManagementPage() {
+export function StudentManagementPage() {
   const studentList = MOCK_MEMBER_LIST_RESPONSE.members.filter(
     (member) => member.role === 'Student'
   )

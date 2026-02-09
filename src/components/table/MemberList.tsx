@@ -4,10 +4,7 @@ import { MemberStatusBadge } from '@/components/common'
 import { DataTable, type Column } from './data-table/DataTable'
 import type { Member } from '@/types/member'
 
-const getRoleLabel = (
-  role: Member['role'],
-  variant: MemberListProps['variant']
-) => (variant === 'student' ? '수강생' : role)
+const getRoleLabel = (role: Member['role']) => role
 
 type MemberListProps = {
   data: Member[]
@@ -81,7 +78,7 @@ const MEMBER_COLUMNS = (
     key: 'role',
     title: '권한',
     size: 'xl',
-    cell: (item) => getRoleLabel(item.role, 'member'),
+    cell: (item) => getRoleLabel(item.role),
   },
   {
     key: 'birthDate',
@@ -142,7 +139,7 @@ const STUDENT_COLUMNS = (): Column<Member>[] => [
     key: 'role',
     title: '권한',
     size: 'xl',
-    cell: (item) => getRoleLabel(item.role, 'student'),
+    cell: (item) => getRoleLabel(item.role),
   },
   {
     key: 'course',

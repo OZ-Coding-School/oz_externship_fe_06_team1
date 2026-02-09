@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from 'react'
-import { Button, Dropdown, Input, Toast } from '@/components/common'
+import { useMemo, useState } from 'react'
+import { Button, Dropdown, Input } from '@/components/common'
 import { MemberDetailModal } from '@/components/member-management/MemberDetailModal'
 import { MemberEditModal } from '@/components/member-management/MemberEditModal'
 import { MemberManagementLayout } from '@/components/layout'
@@ -7,6 +7,7 @@ import MemberList from '@/components/table/MemberList'
 import type { Member, MemberRole } from '@/types'
 import { MOCK_MEMBER_DETAIL_MAP } from '@/mocks/data/member-detail'
 import type { DropdownOption } from '@/types/commonComponents'
+import { useToastStore } from '@/store'
 
 const ROLE_OPTIONS: DropdownOption[] = [
   { label: 'Admin', value: 'Admin' },
@@ -36,6 +37,7 @@ export default function ManagementPage({
   listData,
   enableDetail = true,
 }: ManagementPageProps) {
+  const showRoleFilter = listVariant === 'member'
   const [roleInput, setRoleInput] = useState<MemberRole | undefined>()
   const [statusInput, setStatusInput] = useState<Member['status'] | undefined>()
   const [keywordInput, setKeywordInput] = useState('')
@@ -46,8 +48,7 @@ export default function ManagementPage({
   const [editOpen, setEditOpen] = useState(false)
   const [selectedMember, setSelectedMember] = useState<Member | null>(null)
   const [memberList, setMemberList] = useState(listData)
-
-  const [isToastOpen, setToastOpen] = useState<boolean>(false)
+  const showToast = useToastStore((state) => state.showToast)
 
   const handleSearch = () => {
     setRole(roleInput ?? 'ALL')
@@ -59,7 +60,9 @@ export default function ManagementPage({
     const kw = keyword.trim().toLowerCase()
 
     return memberList.filter((m: Member) => {
-      const roleMatch = role === 'ALL' ? true : m.role === role
+      const roleMatch = showRoleFilter
+        ? role === 'ALL' || m.role === role
+        : true
       const statusMatch = status === 'ALL' ? true : m.status === status
 
       const keywordMatch = kw
@@ -68,17 +71,7 @@ export default function ManagementPage({
 
       return roleMatch && statusMatch && keywordMatch
     })
-  }, [memberList, role, status, keyword])
-
-  useEffect(() => {
-    if (!isToastOpen) return
-
-    const timer = setTimeout(() => {
-      setToastOpen(false)
-    }, 3000)
-
-    return () => clearTimeout(timer)
-  }, [isToastOpen])
+  }, [memberList, role, showRoleFilter, status, keyword])
 
   const openMemberDetail = (member: Member) => {
     if (!enableDetail) return
@@ -106,7 +99,17 @@ export default function ManagementPage({
 
     setMemberList((prev) => prev.filter((m) => m.id !== member.id))
 
-    setToastOpen(true)
+    showToast({
+      variant: 'success',
+      message: '성공적으로 삭제가 완료되었습니다.',
+    })
+  }
+
+  const handleEditSave = () => {
+    showToast({
+      variant: 'success',
+      message: '성공적으로 수정이 완료되었습니다.',
+    })
   }
 
   const selectedDetail = useMemo(() => {
@@ -149,16 +152,18 @@ export default function ManagementPage({
         title={title}
         toolbar={
           <>
-            <div className="w-[140px]">
-              <Dropdown
-                variant="memberFilter"
-                size="sm"
-                placeholder="권한"
-                options={ROLE_OPTIONS}
-                value={roleInput}
-                onChange={(v) => setRoleInput(v as MemberRole)}
-              />
-            </div>
+            {showRoleFilter && (
+              <div className="w-[140px]">
+                <Dropdown
+                  variant="memberFilter"
+                  size="sm"
+                  placeholder="권한"
+                  options={ROLE_OPTIONS}
+                  value={roleInput}
+                  onChange={(v) => setRoleInput(v as MemberRole)}
+                />
+              </div>
+            )}
 
             <div className="w-[171px]">
               <Dropdown
@@ -213,18 +218,9 @@ export default function ManagementPage({
             detail={selectedDetail}
             courseOptions={courseOptions}
             cohortOptions={cohortOptions}
+            onSave={handleEditSave}
           />
         </>
-      )}
-
-      {isToastOpen && (
-        <div className="fixed right-[30px] bottom-[30px] z-[9999]">
-          <Toast
-            variant={'success'}
-            message={'성공적으로 삭제가 완료되었습니다.'}
-            onClose={() => setToastOpen(false)}
-          />
-        </div>
       )}
     </>
   )

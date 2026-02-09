@@ -1,7 +1,7 @@
 import ManagementPage from './ManagementPage'
 import { MOCK_MEMBER_LIST_RESPONSE } from '@/mocks/data/table-data/MemberList'
 
-export default function MemberManagementPage() {
+export function MemberManagementPage() {
   return (
     <ManagementPage
       title="회원관리"

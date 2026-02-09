@@ -124,7 +124,7 @@ export function AdminSidebar() {
               <ul className="text-grey-700 px-8 pb-3 text-sm">
                 {section.items.map((text) => {
                   const isActive =
-                    (pathname === '/exam/history' &&
+                    (pathname.startsWith('/exam/history') &&
                       section.key === 'exam' &&
                       text === '응시 내역 관리') ||
                     (pathname === '/exam/dashboard' &&
