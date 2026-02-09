@@ -71,6 +71,8 @@ export default function ExamModal({
     submitForm(title, subjectId ?? 1, logoUrl)
   }
 
+  const isDefaultLogo = logoUrl === 'default_img_url'
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} showCloseButton size="ml">
       <div className="flex h-full w-full flex-col">
@@ -129,12 +131,8 @@ export default function ExamModal({
                         </span>
                       </div>
                     )}
-                    {logoUrl ? (
-                      <img
-                        src={logoUrl}
-                        alt="Logo Preview"
-                        className="h-24 w-24 object-contain"
-                      />
+                    {logoUrl && !isDefaultLogo ? (
+                      <img src={logoUrl} className="h-24 w-24 object-contain" />
                     ) : (
                       <span className="text-grey-400 text-xs">96 x 96</span>
                     )}
@@ -155,9 +153,9 @@ export default function ExamModal({
 
                   <span
                     className="text-grey-800 max-w-[250px] truncate text-sm underline"
-                    title={logoUrl ? fileName : ''}
+                    title={logoUrl && !isDefaultLogo ? fileName : ''}
                   >
-                    {logoUrl ? fileName : '선택된 파일 없음'}
+                    {logoUrl && !isDefaultLogo ? fileName : '선택된 파일 없음'}
                   </span>
 
                   <label
