@@ -225,14 +225,31 @@ export const sidebarSubmenuItemVariants = cva('py-2', {
   },
 })
 
+export type SkeletonVariant = 'text' | 'rect' | 'circle'
+export type SkeletonRadius = 'none' | 'sm' | 'md' | 'lg' | 'full'
+
 export const skeletonVariants = cva('skeleton', {
   variants: {
+    variant: {
+      text: '',
+      rect: '',
+      circle: '',
+    },
+    radius: {
+      none: 'rounded-none',
+      sm: 'rounded-sm',
+      md: 'rounded-md',
+      lg: 'rounded-lg',
+      full: 'rounded-full',
+    },
     tone: {
       default: '',
       subtle: 'opacity-70',
     },
   },
   defaultVariants: {
+    variant: 'rect',
+    radius: 'md',
     tone: 'default',
   },
 })
