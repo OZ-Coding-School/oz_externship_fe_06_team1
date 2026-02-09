@@ -12,6 +12,7 @@ import {
   MemberDashboardPage,
   MemberManagementPage,
   MemberWithdrawalPage,
+  StudentManagementPage,
   StudentRegistrationPage,
 } from '@/pages/member-management'
 import { NotFoundPage } from '@/pages/not-found'
@@ -37,6 +38,10 @@ export default function App() {
             <Route
               path="/members/management"
               element={<MemberManagementPage />}
+            />
+            <Route
+              path="/members/student-management"
+              element={<StudentManagementPage />}
             />
             <Route
               path="/members/student-registration"
