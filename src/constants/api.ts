@@ -6,6 +6,8 @@ export const API_PATHS = {
   },
   MEMBER: {
     STUDENT_REGISTRATION: '/api/v1/admin/student-enrollments/',
+    STUDENT_REGISTRATION_ACCEPT: '/api/v1/admin/student-enrollments/accept',
+    STUDENT_REGISTRATION_REJECT: '/api/v1/admin/student-enrollments/reject',
   },
   GRAPH: {
     STUDENT_SCORES: (studentId: number | string) =>

@@ -15,6 +15,7 @@ const REGISTRATION_STATUS_OPTIONS: DropdownOption[] = [
 export function StudentRegistrationPage() {
   const {
     isLoading,
+    isActionLoading,
     filters,
     items,
     currentPage,
@@ -82,10 +83,18 @@ export function StudentRegistrationPage() {
             />
 
             <div className="absolute right-0 bottom-0 flex gap-2">
-              <Button variant="primary" onClick={openApproveModal}>
+              <Button
+                variant="primary"
+                onClick={openApproveModal}
+                disabled={isActionLoading}
+              >
                 승인
               </Button>
-              <Button variant="danger" onClick={openRejectModal}>
+              <Button
+                variant="danger"
+                onClick={openRejectModal}
+                disabled={isActionLoading}
+              >
                 반려
               </Button>
             </div>

@@ -3,6 +3,8 @@ import { API_PATHS } from '@/constants/api'
 import { useAxios } from '@/hooks/useAxios'
 import { useToastStore } from '@/store/useToastStore'
 import type {
+  StudentRegistrationActionRequest,
+  StudentRegistrationActionResponse,
   StudentRegistrationApiQueryStatus,
   StudentRegistrationApiStatus,
   StudentRegistrationItemType,
@@ -67,8 +69,10 @@ function mapApiResultToItem(
 export function useStudentRegistration() {
   const { sendRequest } = useAxios()
   const showToast = useToastStore((state) => state.showToast)
+
   const [items, setItems] = useState<StudentRegistrationItemType[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [isActionLoading, setIsActionLoading] = useState(false)
   const [totalCount, setTotalCount] = useState(0)
   const [currentPage, setCurrentPage] = useState(1)
 
@@ -168,27 +172,52 @@ export function useStudentRegistration() {
 
   const closeModal = () => setModalConfig((p) => ({ ...p, isOpen: false }))
 
-  const updateStatus = (newStatus: StudentRegistrationItemType['status']) => {
+  const processEnrollmentAction = async (
+    action: 'accept' | 'reject',
+    enrollmentIds: number[]
+  ) => {
+    if (isActionLoading || enrollmentIds.length === 0) return
+
+    setIsActionLoading(true)
     try {
-      setItems((prev) =>
-        prev.map((item) =>
-          selectedIds.includes(item.id) && item.status === 'Submitted'
-            ? { ...item, status: newStatus }
-            : item
-        )
-      )
-      setSelectedIds([])
+      const endpoint =
+        action === 'accept'
+          ? API_PATHS.MEMBER.STUDENT_REGISTRATION_ACCEPT
+          : API_PATHS.MEMBER.STUDENT_REGISTRATION_REJECT
+
+      const response = await sendRequest<StudentRegistrationActionResponse>({
+        method: 'POST',
+        url: endpoint,
+        data: {
+          enrollments: enrollmentIds,
+        } satisfies StudentRegistrationActionRequest,
+        errorTitle:
+          action === 'accept'
+            ? '수강생 등록 신청 승인 실패'
+            : '수강생 등록 신청 반려 실패',
+      })
+
+      await fetchList()
 
       showToast({
         variant: 'success',
-        message: '성공적으로 상태 처리가 완료됐습니다.',
+        message:
+          response.detail ||
+          (action === 'accept'
+            ? '수강생 등록 신청이 승인되었습니다.'
+            : '수강생 등록 신청이 반려되었습니다.'),
       })
     } catch (error) {
       console.error(error)
       showToast({
         variant: 'error',
-        message: '상태 변경 중 오류가 발생했습니다.',
+        message:
+          action === 'accept'
+            ? '승인 처리 중 오류가 발생했습니다.'
+            : '반려 처리 중 오류가 발생했습니다.',
       })
+    } finally {
+      setIsActionLoading(false)
     }
   }
 
@@ -206,9 +235,12 @@ export function useStudentRegistration() {
     }
 
     const isApprove = targetStatus === 'Accepted'
+    const action: 'accept' | 'reject' = isApprove ? 'accept' : 'reject'
+    const enrollmentIds = submittableItems.map((item) => item.id)
+
     const config = {
       type: isApprove ? ('confirm' as const) : ('danger' as const),
-      confirmText: isApprove ? '확인' : '반려',
+      confirmText: isApprove ? '승인' : '반려',
       colorClass: isApprove ? 'text-success-400' : 'text-error-400',
     }
 
@@ -225,7 +257,7 @@ export function useStudentRegistration() {
           변경하시겠습니까?
         </span>
       ),
-      onConfirm: () => updateStatus(targetStatus),
+      onConfirm: () => processEnrollmentAction(action, enrollmentIds),
     })
   }
 
@@ -236,6 +268,7 @@ export function useStudentRegistration() {
 
   return {
     isLoading,
+    isActionLoading,
     filters,
     items,
     totalCount,

@@ -97,6 +97,14 @@ export type StudentRegistrationListResponse = {
   results: StudentRegistrationListResult[]
 }
 
+export type StudentRegistrationActionRequest = {
+  enrollments: number[]
+}
+
+export type StudentRegistrationActionResponse = {
+  detail: string
+}
+
 export type MemberWithdrawalItemType = {
   id: number
   email: string
