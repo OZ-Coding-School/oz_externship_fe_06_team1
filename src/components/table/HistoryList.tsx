@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import type { HistoryItem } from '@/types/history'
 import { Pagination } from '@/components/common/Pagination'
 import { DataTable, type Column } from './data-table/DataTable'
+import { formatDateTime } from '@/utils/dateUtils'
 
 export type ExamHistoryListProps = {
   onClickTitle?: (item: HistoryItem) => void
@@ -78,13 +79,13 @@ const COLUMNS = (
     key: 'started_at',
     title: '시험 참가 일시',
     size: 'xl',
-    cell: (item) => item.started_at,
+    cell: (item) => formatDateTime(item.started_at),
   },
   {
     key: 'finished_at',
     title: '시험 종료 일시',
     size: 'xl',
-    cell: (item) => item.finished_at,
+    cell: (item) => formatDateTime(item.finished_at),
   },
 ]
 
