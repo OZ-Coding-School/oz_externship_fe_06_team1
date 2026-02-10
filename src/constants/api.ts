@@ -4,6 +4,9 @@ export const API_PATHS = {
     REFRESH_TOKEN: '/api/v1/accounts/me/refresh/',
     LOGOUT: '/api/v1/accounts/logout/',
   },
+  MEMBER: {
+    STUDENT_REGISTRATION: '/api/v1/admin/student-enrollments/',
+  },
   GRAPH: {
     STUDENT_SCORES: (studentId: number | string) =>
       `api/v1/admin/students/${studentId}/scores`,
