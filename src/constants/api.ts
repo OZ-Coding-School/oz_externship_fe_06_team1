@@ -9,6 +9,9 @@ export const API_PATHS = {
     DETAIL: (examId: number | string) => `/api/v1/admin/exams/${examId}`,
     PRESIGNED_URL: '/api/v1/admin/exams/presigned-url/thumbnail',
   },
+  SUBMISSIONS: {
+    LIST: '/api/v1/admin/submissions',
+  },
   GRAPH: {
     STUDENT_SCORES: (studentId: number | string) =>
       `api/v1/admin/students/${studentId}/scores`,

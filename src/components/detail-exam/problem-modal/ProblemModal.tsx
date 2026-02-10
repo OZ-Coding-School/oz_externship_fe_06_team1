@@ -12,7 +12,6 @@ import {
 import { QUESTION_TYPES } from '@/constants/Question/question-types'
 import { useProblemFormStore } from '@/store/problem-form/useProblemFormStore'
 import { validateProblemForm } from '@/utils/validation'
-import { useQuestionActions } from '@/hooks/problem-form/useQuestionActions'
 
 interface ProblemModalProps {
   isOpen: boolean
@@ -28,7 +27,6 @@ interface ProblemModalProps {
 export default function ProblemModal({
   isOpen,
   onClose,
-  examId,
   mode = 'create',
   initialData,
   totalScore,
@@ -52,12 +50,6 @@ export default function ProblemModal({
     options,
     correctAnswers,
   } = useProblemFormStore()
-
-  const {
-    createQuestion,
-    updateQuestion,
-    isLoading: isSubmitting,
-  } = useQuestionActions()
 
   // 알림 모달 상태 및 검사를 통과하지 못한 필드로 돌아가는 포커스 관리를 위한 Ref
   const [alertState, setAlertState] = useState({
@@ -126,25 +118,9 @@ export default function ProblemModal({
       return
     }
 
-    // API 요청
-    handleApiRequest()
-  }
-
-  const handleApiRequest = async () => {
-    try {
-      let result = null
-      if (mode === 'edit' && initialData) {
-        result = await updateQuestion(initialData.question_id)
-      } else if (mode === 'create' && examId) {
-        result = await createQuestion(examId)
-      }
-      if (result) {
-        onSuccess?.()
-        onClose()
-      }
-    } catch {
-      // useAxios에서 처리
-    }
+    // TODO: 문제 생성/수정 API 연동 시 onSuccess와 함께 실제 요청으로 교체
+    onSuccess?.()
+    onClose()
   }
 
   return (
@@ -217,15 +193,8 @@ export default function ProblemModal({
               variant="primary"
               className="flex h-[36px] min-w-[55px] rounded-sm font-normal"
               onClick={handleSubmit}
-              disabled={isSubmitting}
             >
-              {isSubmitting
-                ? mode === 'edit'
-                  ? '수정 중...'
-                  : '추가 중...'
-                : mode === 'edit'
-                  ? '수정'
-                  : '추가'}
+              {mode === 'edit' ? '수정' : '추가'}
             </Button>
           </div>
         </div>

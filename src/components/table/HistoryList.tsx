@@ -29,10 +29,10 @@ const COLUMNS = (
   onClickTitle?: (item: HistoryItem) => void
 ): Column<HistoryItem>[] => [
   {
-    key: 'history_id',
+    key: 'submission_id',
     title: 'ID',
     size: 'md',
-    cell: (item) => item.history_id,
+    cell: (item) => item.submission_id,
   },
   {
     key: 'exam_title',
