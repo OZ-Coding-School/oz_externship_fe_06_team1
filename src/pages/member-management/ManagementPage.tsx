@@ -142,6 +142,13 @@ export default function ManagementPage({
     })
   }
 
+  const handlePermissionConfirm = () => {
+    showToast({
+      variant: 'success',
+      message: '권한이 성공적으로 변경되었습니다.',
+    })
+  }
+
   const selectedDetail = useMemo(() => {
     if (!selectedMember) return null
     const detail = MOCK_MEMBER_DETAIL_MAP[selectedMember.id] ?? {
@@ -252,6 +259,7 @@ export default function ManagementPage({
             member={selectedMember}
             onDeleteConfirm={handleDeleteConfirm}
             onEdit={openMemberEdit}
+            onPermissionConfirm={handlePermissionConfirm}
           />
 
           <MemberEditModal
