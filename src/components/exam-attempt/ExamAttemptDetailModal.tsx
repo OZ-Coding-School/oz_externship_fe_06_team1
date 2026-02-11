@@ -13,11 +13,11 @@ type ExamAttemptDetailModalProps = {
   onDeleteConfirm?: (item: HistoryItem) => void
 }
 
-function TableWrap({ children }: { children: ReactNode }) {
+export function TableWrap({ children }: { children: ReactNode }) {
   return <div className="border-grey-300 border-t">{children}</div>
 }
 
-function Row2({ label, value }: { label: string; value: ReactNode }) {
+export function Row2({ label, value }: { label: string; value: ReactNode }) {
   return (
     <div className="border-grey-300 grid grid-cols-[140px_1fr] border-b">
       <div className="bg-grey-50 text-grey-600 px-4 py-3 text-sm font-medium">
@@ -28,7 +28,7 @@ function Row2({ label, value }: { label: string; value: ReactNode }) {
   )
 }
 
-function Row4({
+export function Row4({
   leftLabel,
   leftValue,
   rightLabel,
