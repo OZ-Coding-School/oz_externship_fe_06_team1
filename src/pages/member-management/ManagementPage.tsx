@@ -118,8 +118,24 @@ export default function ManagementPage({
   useEffect(() => {
     if (keywordInput.trim() === '') {
       setKeyword('')
+      if (showCohortFilter && onStudentSearch) {
+        const cohortId = cohortInput ? Number(cohortInput) : undefined
+        const statusVal =
+          statusInput && statusInput !== 'ALL' ? statusInput : undefined
+        onStudentSearch({
+          cohort_id: cohortId,
+          status: statusVal,
+          keyword: undefined,
+        })
+      }
     }
-  }, [keywordInput])
+  }, [
+    keywordInput,
+    showCohortFilter,
+    onStudentSearch,
+    cohortInput,
+    statusInput,
+  ])
 
   const filtered = useMemo(() => {
     const kw = keyword.trim().toLowerCase()
