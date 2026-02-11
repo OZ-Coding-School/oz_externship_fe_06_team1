@@ -13,7 +13,6 @@ export const API_PATHS = {
     LIST: '/api/v1/admin/exams',
     DETAIL: (examId: number | string) => `/api/v1/admin/exams/${examId}`,
     PRESIGNED_URL: '/api/v1/admin/exams/presigned-url/thumbnail',
-    CREATE: '/api/v1/admin/exams',
     UPDATE: (examId: number | string) => `/api/v1/admin/exams/${examId}`,
     DELETE: (examId: number | string) => `/api/v1/admin/exams/${examId}`,
   },
