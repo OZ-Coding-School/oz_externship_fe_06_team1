@@ -1,0 +1,6 @@
+export * from './ExamDashboardPage'
+export * from './ExamDeploymentPage'
+export * from './FilteredExamHistoryPage'
+export * from './ExamHistoryPage'
+export * from './exam-list/ExamListPage'
+export * from './exam-list/DetailExamPage'
