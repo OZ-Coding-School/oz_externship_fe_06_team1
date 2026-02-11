@@ -4,7 +4,7 @@ import { MemberDetailModal } from '@/components/member-management/MemberDetailMo
 import { MemberEditModal } from '@/components/member-management/MemberEditModal'
 import { MemberManagementLayout } from '@/components/layout'
 import MemberList from '@/components/table/MemberList'
-import type { Member, MemberRole } from '@/types'
+import type { Member, MemberDetail, MemberRole } from '@/types'
 import { MOCK_MEMBER_DETAIL_MAP } from '@/mocks/data/member-detail'
 import type { DropdownOption } from '@/types/commonComponents'
 import { useToastStore } from '@/store'
@@ -53,6 +53,7 @@ export default function ManagementPage({
   const [detailOpen, setDetailOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
   const [selectedMember, setSelectedMember] = useState<Member | null>(null)
+  const [editDetail, setEditDetail] = useState<MemberDetail | null>(null)
   const [memberList, setMemberList] = useState(listData)
   const showToast = useToastStore((state) => state.showToast)
   const [internalLoading, setInternalLoading] = useState(
@@ -77,6 +78,12 @@ export default function ManagementPage({
     setStatus(statusInput ?? 'ALL')
     setKeyword(keywordInput)
   }
+
+  useEffect(() => {
+    if (keywordInput.trim() === '') {
+      setKeyword('')
+    }
+  }, [keywordInput])
 
   const filtered = useMemo(() => {
     const kw = keyword.trim().toLowerCase()
@@ -106,14 +113,15 @@ export default function ManagementPage({
     setSelectedMember(null)
   }
 
-  const openMemberEdit = () => {
-    if (!selectedMember) return
+  const openMemberEdit = (detail: MemberDetail) => {
+    setEditDetail(detail)
     setDetailOpen(false)
     setEditOpen(true)
   }
 
   const closeMemberEdit = () => {
     setEditOpen(false)
+    setEditDetail(null)
   }
 
   const handleDeleteConfirm = (member: Member) => {
@@ -249,7 +257,7 @@ export default function ManagementPage({
           <MemberEditModal
             open={editOpen}
             onClose={closeMemberEdit}
-            detail={selectedDetail}
+            detail={editDetail ?? selectedDetail}
             courseOptions={courseOptions}
             cohortOptions={cohortOptions}
             onSave={handleEditSave}
