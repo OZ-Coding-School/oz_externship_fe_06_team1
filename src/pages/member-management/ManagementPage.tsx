@@ -61,7 +61,7 @@ export default function ManagementPage({
 
   useEffect(() => {
     if (externalLoading !== undefined) return
-    const timer = setTimeout(() => setInternalLoading(false), 3000)
+    const timer = setTimeout(() => setInternalLoading(false), 500)
     return () => clearTimeout(timer)
   }, [externalLoading])
 
