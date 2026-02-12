@@ -4,12 +4,13 @@ import { MemberDetailModal } from '@/components/member-management/MemberDetailMo
 import { MemberEditModal } from '@/components/member-management/MemberEditModal'
 import { MemberManagementLayout } from '@/components/layout'
 import MemberList from '@/components/table/MemberList'
-import type { Member, MemberRole } from '@/types'
+import type { Member, MemberDetail, MemberRole } from '@/types'
 import { MOCK_MEMBER_DETAIL_MAP } from '@/mocks/data/member-detail'
 import type { DropdownOption } from '@/types/commonComponents'
 import { useToastStore } from '@/store'
 
 const ROLE_OPTIONS: DropdownOption[] = [
+  { label: '전체', value: 'ALL' },
   { label: 'Admin', value: 'Admin' },
   { label: 'Staff (TA)', value: 'Staff (TA)' },
   { label: 'Student', value: 'Student' },
@@ -19,10 +20,17 @@ const ROLE_OPTIONS: DropdownOption[] = [
 ]
 
 const STATUS_OPTIONS: DropdownOption[] = [
+  { label: '전체', value: 'ALL' },
   { label: 'Activated', value: 'Activated' },
   { label: 'Disabled', value: 'Disabled' },
   { label: 'Withdraw', value: 'Withdraw' },
 ]
+
+type StudentSearchFilters = {
+  cohort_id?: number
+  status?: string
+  keyword?: string
+}
 
 type ManagementPageProps = {
   title: string
@@ -30,7 +38,20 @@ type ManagementPageProps = {
   listData: Member[]
   enableDetail?: boolean
   externalLoading?: boolean
+  /** 수강생: 기수 옵션 및 조회 시 API refetch 콜백 */
+  studentCohortOptions?: DropdownOption[]
+  onStudentSearch?: (filters: StudentSearchFilters) => void
 }
+
+const STUDENT_COHORT_OPTIONS: DropdownOption[] = [
+  { label: '전체', value: '' },
+  { label: '10기', value: '10' },
+  { label: '11기', value: '11' },
+  { label: '12기', value: '12' },
+  { label: '13기', value: '13' },
+  { label: '14기', value: '14' },
+  { label: '15기', value: '15' },
+]
 
 export default function ManagementPage({
   title,
@@ -38,10 +59,19 @@ export default function ManagementPage({
   listData,
   enableDetail = true,
   externalLoading,
+  studentCohortOptions = listVariant === 'student'
+    ? STUDENT_COHORT_OPTIONS
+    : undefined,
+  onStudentSearch,
 }: ManagementPageProps) {
   const showRoleFilter = listVariant === 'member'
-  const [roleInput, setRoleInput] = useState<MemberRole | undefined>()
-  const [statusInput, setStatusInput] = useState<Member['status'] | undefined>()
+  const showCohortFilter =
+    listVariant === 'student' && studentCohortOptions?.length
+  const [cohortInput, setCohortInput] = useState('')
+  const [roleInput, setRoleInput] = useState<MemberRole | 'ALL'>('ALL')
+  const [statusInput, setStatusInput] = useState<Member['status'] | 'ALL'>(
+    'ALL'
+  )
   const [keywordInput, setKeywordInput] = useState('')
   const [role, setRole] = useState<'ALL' | MemberRole>('ALL')
   const [status, setStatus] = useState<'ALL' | Member['status']>('ALL')
@@ -49,6 +79,7 @@ export default function ManagementPage({
   const [detailOpen, setDetailOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
   const [selectedMember, setSelectedMember] = useState<Member | null>(null)
+  const [editDetail, setEditDetail] = useState<MemberDetail | null>(null)
   const [memberList, setMemberList] = useState(listData)
   const showToast = useToastStore((state) => state.showToast)
   const [internalLoading, setInternalLoading] = useState(
@@ -72,7 +103,39 @@ export default function ManagementPage({
     setRole(roleInput ?? 'ALL')
     setStatus(statusInput ?? 'ALL')
     setKeyword(keywordInput)
+    if (showCohortFilter && onStudentSearch) {
+      const cohortId = cohortInput ? Number(cohortInput) : undefined
+      const statusVal =
+        statusInput && statusInput !== 'ALL' ? statusInput : undefined
+      onStudentSearch({
+        cohort_id: cohortId,
+        status: statusVal,
+        keyword: keywordInput.trim() || undefined,
+      })
+    }
   }
+
+  useEffect(() => {
+    if (keywordInput.trim() === '') {
+      setKeyword('')
+      if (showCohortFilter && onStudentSearch) {
+        const cohortId = cohortInput ? Number(cohortInput) : undefined
+        const statusVal =
+          statusInput && statusInput !== 'ALL' ? statusInput : undefined
+        onStudentSearch({
+          cohort_id: cohortId,
+          status: statusVal,
+          keyword: undefined,
+        })
+      }
+    }
+  }, [
+    keywordInput,
+    showCohortFilter,
+    onStudentSearch,
+    cohortInput,
+    statusInput,
+  ])
 
   const filtered = useMemo(() => {
     const kw = keyword.trim().toLowerCase()
@@ -102,14 +165,15 @@ export default function ManagementPage({
     setSelectedMember(null)
   }
 
-  const openMemberEdit = () => {
-    if (!selectedMember) return
+  const openMemberEdit = (detail: MemberDetail) => {
+    setEditDetail(detail)
     setDetailOpen(false)
     setEditOpen(true)
   }
 
   const closeMemberEdit = () => {
     setEditOpen(false)
+    setEditDetail(null)
   }
 
   const handleDeleteConfirm = (member: Member) => {
@@ -127,6 +191,13 @@ export default function ManagementPage({
     showToast({
       variant: 'success',
       message: '성공적으로 수정이 완료되었습니다.',
+    })
+  }
+
+  const handlePermissionConfirm = () => {
+    showToast({
+      variant: 'success',
+      message: '권한이 성공적으로 변경되었습니다.',
     })
   }
 
@@ -170,6 +241,18 @@ export default function ManagementPage({
         title={title}
         toolbar={
           <>
+            {showCohortFilter && studentCohortOptions && (
+              <div className="w-[100px]">
+                <Dropdown
+                  variant="memberFilter"
+                  size="sm"
+                  placeholder="기수"
+                  options={studentCohortOptions}
+                  value={cohortInput}
+                  onChange={(v) => setCohortInput(v ?? '')}
+                />
+              </div>
+            )}
             {showRoleFilter && (
               <div className="w-[140px]">
                 <Dropdown
@@ -178,7 +261,11 @@ export default function ManagementPage({
                   placeholder="권한"
                   options={ROLE_OPTIONS}
                   value={roleInput}
-                  onChange={(v) => setRoleInput(v as MemberRole)}
+                  onChange={(v) => {
+                    const val = v as MemberRole | 'ALL'
+                    setRoleInput(val)
+                    setRole(val)
+                  }}
                 />
               </div>
             )}
@@ -190,7 +277,11 @@ export default function ManagementPage({
                 placeholder="회원 상태"
                 options={STATUS_OPTIONS}
                 value={statusInput}
-                onChange={(v) => setStatusInput(v as Member['status'])}
+                onChange={(v) => {
+                  const val = v as Member['status'] | 'ALL'
+                  setStatusInput(val)
+                  setStatus(val)
+                }}
               />
             </div>
 
@@ -232,12 +323,13 @@ export default function ManagementPage({
             member={selectedMember}
             onDeleteConfirm={handleDeleteConfirm}
             onEdit={openMemberEdit}
+            onPermissionConfirm={handlePermissionConfirm}
           />
 
           <MemberEditModal
             open={editOpen}
             onClose={closeMemberEdit}
-            detail={selectedDetail}
+            detail={editDetail ?? selectedDetail}
             courseOptions={courseOptions}
             cohortOptions={cohortOptions}
             onSave={handleEditSave}
