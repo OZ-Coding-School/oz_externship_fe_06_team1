@@ -166,6 +166,7 @@ export type AdminStudentListItem = {
   phone_number?: string
   birthday?: string
   status?: string
+  role?: string
   created_at?: string
   user?: {
     id: number
@@ -177,6 +178,11 @@ export type AdminStudentListItem = {
   }
   cohort?: { id: number; number: number }
   course?: { id: number; name: string; tag?: string }
+  /** in_progress_course 래퍼 (실제 API 응답 구조) */
+  in_progress_course?: {
+    cohort?: { id: number; number: number }
+    course?: { id: number; name: string; tag?: string }
+  }
   /** flat 필드 (API 스키마에 따라 다름) */
   course_name?: string
   cohort_number?: number

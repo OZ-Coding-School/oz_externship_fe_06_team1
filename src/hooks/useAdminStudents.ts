@@ -13,6 +13,8 @@ const DEFAULT_PAGE_SIZE = 20
 function getCourseName(item: AdminStudentListItem): string | undefined {
   if (item.course_name) return item.course_name
   if (item.course?.name) return item.course.name
+  if (item.in_progress_course?.course?.name)
+    return item.in_progress_course.course.name
   const first = item.assigned_courses?.[0]
   if (first?.course_name) return first.course_name
   if (first?.course?.name) return first.course.name
@@ -22,6 +24,8 @@ function getCourseName(item: AdminStudentListItem): string | undefined {
 function getCohortDisplay(item: AdminStudentListItem): string | undefined {
   if (item.cohort_number != null) return `${item.cohort_number}기`
   if (item.cohort?.number != null) return `${item.cohort.number}기`
+  if (item.in_progress_course?.cohort?.number != null)
+    return `${item.in_progress_course.cohort.number}기`
   const first = item.assigned_courses?.[0]
   const c = first?.cohort
   if (typeof c === 'number') return `${c}기`
