@@ -16,8 +16,6 @@ export function useExamDeployment() {
     cohort: '',
   })
 
-  const [selectedItem, setSelectedItem] =
-    useState<ExamDeploymentItemType | null>(null)
   const [selectedDetail, setSelectedDetail] =
     useState<ExamDeploymentDetailType | null>(null)
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false)
@@ -37,7 +35,7 @@ export function useExamDeployment() {
 
   const closeDetail = () => {
     setIsDetailModalOpen(false)
-    setSelectedItem(null)
+    setSelectedDetail(null)
   }
 
   const fetchList = useCallback(async () => {
@@ -110,7 +108,7 @@ export function useExamDeployment() {
     applyFilters: fetchList,
     handleToggleStatus,
     isDetailModalOpen,
-    selectedItem,
+    selectedDetail,
     openDetail,
     closeDetail,
     handleDeleteDeployment,

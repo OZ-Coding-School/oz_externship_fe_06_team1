@@ -8,6 +8,7 @@ import { useExamDeployment } from '@/hooks/useExamDeployment'
 import BackCircleIcon from '@/assets/icons/BackCircle.svg?react'
 import CloseIcon from '@/assets/icons/Close.svg?react'
 import { useMemo, useState } from 'react'
+import type { ExamDeploymentDetailType } from '@/types'
 
 export function ExamDeploymentPage() {
   const {
@@ -19,7 +20,7 @@ export function ExamDeploymentPage() {
     applyFilters,
     handleToggleStatus,
     isDetailModalOpen,
-    selectedItem,
+    selectedDetail,
     openDetail,
     closeDetail,
     handleDeleteDeployment,
@@ -168,7 +169,7 @@ export function ExamDeploymentPage() {
       <ExamDeploymentDetailModal
         isOpen={isDetailModalOpen}
         onClose={closeDetail}
-        detail={selectedItem}
+        detail={selectedDetail as ExamDeploymentDetailType}
         onDeleteConfirm={handleDeleteDeployment}
       />
     </>

@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { AlertModal, Button, Modal } from '@/components/common'
-import { type ExamDeploymentItemType } from '@/types'
+import { type ExamDeploymentDetailType } from '@/types'
 import { Row2, Row4, TableWrap } from '../exam-attempt'
 import { formatDate } from '@/utils'
 
 type ExamDeploymentDetailModalProps = {
   isOpen: boolean
   onClose: () => void
-  detail: ExamDeploymentItemType | null
+  detail: ExamDeploymentDetailType | null
   onDeleteConfirm?: (id: number) => void
 }
 
