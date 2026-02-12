@@ -112,10 +112,7 @@ export function StudentRegistrationPage() {
         ) : (
           <StudentRegistrationList
             data={items}
-            currentPage={currentPage}
-            totalPages={totalPages}
             selectedIds={selectedIds}
-            onPageChange={setCurrentPage}
             onToggleOne={toggleOne}
             onToggleAll={toggleAll}
           />

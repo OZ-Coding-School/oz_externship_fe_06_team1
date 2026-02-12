@@ -1,18 +1,11 @@
 import { useMemo } from 'react'
-import {
-  CustomCheckbox,
-  MemberStatusBadge,
-  Pagination,
-} from '@/components/common'
+import { CustomCheckbox, MemberStatusBadge } from '@/components/common'
 import { DataTable, type Column } from '@/components/table/data-table/DataTable'
 import type { StudentRegistrationItemType } from '@/types'
 
 type StudentRegistrationListProps = {
   data: StudentRegistrationItemType[]
-  currentPage: number
-  totalPages: number
   selectedIds: number[]
-  onPageChange: (page: number) => void
   onToggleOne: (id: number) => void
   onToggleAll: () => void
 }
